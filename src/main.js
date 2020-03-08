@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuetify from 'vuetify'
 import firebase from 'firebase'
 import App from './App.vue'
 import './registerServiceWorker'
@@ -6,6 +7,7 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+let app = ''
 var firebaseConfig = {
   apiKey: "AIzaSyCNtXlRX0F3WRdtqTHqkjScvO9Tu-M0d1Q",
   authDomain: "progressiveproj.firebaseapp.com",
@@ -19,7 +21,13 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+Vue.use(Vuetify);
+
+firebase.auth().onAuthStateChanged(() => {
+  if (!app) {
+    app = new Vue({
+      router,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+})

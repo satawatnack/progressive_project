@@ -3,37 +3,42 @@
         <h3>Let's create a new account !</h3>
         <input type="text" v-model="email" placeholder="Email"><br>
         <input type="password" v-model="password" placeholder="Password"><br>
-        <UploadImages></UploadImages>
-        <button @click="signUp">Sign up</button>
+        <input type="text" v-model="name" placeholder="Firstname Lastname"><br>
+        <input type="text" v-model="tel" placeholder="Phone Number"><br>
+        <button @click="next">next</button>
         <span>or go back to <router-link to="login">login.</router-link></span>
     </div>
 </template>
 
 <script>
 import firebase from 'firebase'
-import UploadImages from '@/components/UploadImages.vue'
-// var database = firebase.database()
-// var usersRef = database.ref('/users')
+var database = firebase.database()
+var usersRef = database.ref('/users')
 
 export default {
     name: 'signUp',
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            name: '',
+            tel: ''
         }
     },
-    components: {
-        UploadImages
-    },
     methods: {
-        signUp: function() {
+        next: function() {
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-                function (user) {
-                    this.$router.replace('home')
-                    console.log(user.user.uid)
+                (result) =>  {
+                    this.$router.replace('profileImg')
+                    let data = {
+                        uid: result.user.uid,
+                        name: this.name,
+                        tel: this.tel
+                    }
+                    usersRef.push(data)
+                    console.log(result.user.uid)
                 },
-                function (err) {
+                (err) =>  {
                     alert('Oops. ' + err.message)
                 }
             )

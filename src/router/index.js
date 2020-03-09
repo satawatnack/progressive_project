@@ -25,6 +25,14 @@ const routes = [
     component: () => import('../views/SignUp.vue')
   },
   {
+    path: '/profileImg',
+    name: 'ProfileImg',
+    component: () => import('../views/ProfileImg.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/home',
     name: 'Home',
     component: Home,

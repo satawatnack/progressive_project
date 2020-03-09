@@ -74,7 +74,7 @@ export default {
     upload (file) {
       this.fileName = file.name
       this.uploading = true
-      this.uploadTask = firebase.storage().ref('images/' + file.name).put(file)
+      this.uploadTask = firebase.storage().ref('profile/' + firebase.auth().currentUser.uid).put(file)
     },
     deleteImage () {
       firebase.storage()

@@ -12,8 +12,8 @@
 
 <script>
 import firebase from 'firebase'
-var database = firebase.database()
-var usersRef = database.ref('/users')
+const fb = require('../firebaseConfig.js')
+let usersRef = fb.db.ref('/users')
 
 export default {
     name: 'signUp',

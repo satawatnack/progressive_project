@@ -2,78 +2,7 @@
   <div>
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Add New Posts</h3>
-      </div>
-      <div class="panel-body">
-         <form id="form" class="form" v-on:submit.prevent="addPost">
-          <div class="form-group">
-            <label for="postTitle">Title:</label>
-            <input type="text" id="postTitle" class="form-control" v-model="newPost.title">
-          </div>
-          <div class="form-group">
-            <label for="postType">Type:</label>
-            <input type="text" id="postType" class="form-control" v-model="newPost.type">
-          </div>
-          <div class="form-group">
-            <label for="postStatus">Status:</label>
-            <input type="text" id="postStatus" class="form-control" v-model="newPost.status">
-          </div>
-          <div class="form-group">
-            <label for="postDetail">Detail:</label>
-            <input type="text" id="postDetail" class="form-control" v-model="newPost.detail">
-          </div>
-          <v-btn
-            @click.native="selectFile"
-            v-if="!uploadEnd && !uploading">
-                Upload image
-                <v-icon
-                right
-                aria-hidden="true">
-                add_a_photo
-                </v-icon>
-            </v-btn>
-            <form ref="form">
-            <input
-            id="files"
-            type="file"
-            name="file"
-            ref="uploadInput"
-            accept="image/*"
-            :multiple="false"
-            @change="detectFiles($event)" />
-            </form>
-            <v-progress-circular
-                v-if="uploading && !uploadEnd"
-                :size="100"
-                :width="15"
-                :rotate="360"
-                :value="progressUpload"
-                color="primary">
-                %
-            </v-progress-circular>
-            <img
-                v-if="uploadEnd"
-                :src="downloadURL"
-                width="100%" />
-            <div v-if="uploadEnd">
-                <v-btn
-                class="ma-0"
-                dark
-                small
-                color="error"
-                @click="deleteImage()"
-                >
-                Delete
-                </v-btn>
-            </div><br>
-            <input type="submit" class="btn btn-primary" value="Add Post">
-        </form>
-      </div>
-    </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Feed</h3>
+        <h3 class="panel-title">My Feeds</h3>
       </div>
       <div class="panel-body">
         <table class="table table-striped">
@@ -90,7 +19,7 @@
                 <div>tel : {{getUserTel(post.uid)}}</div>
                 <div><button @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.detail)">Save</button></div>
               </div>
-              <tr v-else>
+              <tr v-else-if="post.uid==uid">
                 <td>{{post.title}}</td>
                 <td>{{post.type}}</td>
                 <td>{{post.status}}</td>
@@ -100,7 +29,7 @@
                 <td>post by : {{getUserName(post.uid)}}</td>
                 <td>tel : {{getUserTel(post.uid)}}</td>
                 <td>
-                    <button v-if="post.uid==uid" @click="setUpdatePost(key, post)">Update</button><br>
+                    <button @click="setUpdatePost(key, post)">Update</button><br>
                     <button v-if="post.uid==uid" @click="removePost(post, key)">Remove</button>
                 </td>
               </tr>
@@ -119,7 +48,7 @@ let postsRef = fb.db.ref('/posts')
 let usersRef = fb.db.ref('/users')
 
 export default {
-  name: 'homefeeds',
+  name: 'myfeeds',
   data () {
     return {
       progressUpload: 0,

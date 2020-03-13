@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+const fb = require('../firebaseConfig.js')
 
 export default {
   data () {
@@ -74,11 +74,11 @@ export default {
     upload (file) {
       this.fileName = file.name
       this.uploading = true
-      this.uploadTask = firebase.storage().ref('profile/' + firebase.auth().currentUser.uid).put(file)
+      this.uploadTask = fb.storage.ref('profile/' + fb.auth.currentUser.uid).put(file)
     },
     deleteImage () {
-      firebase.storage()
-        .ref('images/' + this.fileName)
+      fb.storage
+        .ref('profile/' + fb.auth.currentUser.uid)
         .delete()
         .then(() => {
           this.uploading = false

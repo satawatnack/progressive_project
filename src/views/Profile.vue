@@ -4,6 +4,36 @@
       <b-col></b-col>
       <b-col class="p-0 mt-3" cols="8">
         <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 60px;"></b-img>
+        <div>
+            <v-progress-circular
+                v-if="uploading && !uploadEnd"
+                :size="100"
+                :width="15"
+                :rotate="360"
+                :value="progressUpload"
+                color="primary">
+                %
+            </v-progress-circular>
+            <v-btn
+            @click.native="selectFile">
+                change a profile image
+                <v-icon
+                right
+                aria-hidden="true">
+                add_a_photo
+                </v-icon>
+            </v-btn>
+            <form ref="form">
+            <input
+            id="files"
+            type="file"
+            name="file"
+            ref="uploadInput"
+            accept="image/*"
+            :multiple="false"
+            @change="detectFiles($event)" />
+            </form>
+        </div>
         <div :key="key" v-for="(user, key) in users">
             <div v-if="updateKey === key">
                 <div><input type="text" v-model="updateUser.name" placeholder="name"></div>
@@ -43,7 +73,13 @@ export default {
       updateUser: {
           name: '',
           tel: '',
-      }
+      },
+      progressUpload: 0,
+      fileName: '',
+      uploadTask: '',
+      uploading: false,
+      uploadEnd: false,
+      downloadURL: ''
     }
   },
   components: {
@@ -74,12 +110,41 @@ export default {
         this.updateKey = ''
         this.updateUser.name = ''
         this.updateUser.tel = ''
+    },
+    selectFile () {
+      this.$refs.uploadInput.click()
+    },
+    detectFiles (e) {
+      let fileList = e.target.files || e.dataTransfer.files
+      Array.from(Array(fileList.length).keys()).map(x => {
+        this.upload(fileList[x])
+      })
+    },
+    upload (file) {
+      this.fileName = file.name
+      this.uploading = true
+      this.uploadTask = fb.storage.ref('profile/' + fb.auth.currentUser.uid).put(file)
     }
   },
   mounted () {
     usersRef.on('value', (snapshot) => {
       this.users = snapshot.val()
     })
+  },
+  watch: {
+    uploadTask: function () {
+      this.uploadTask.on('state_changed', sp => {
+        this.progressUpload = Math.floor(sp.bytesTransferred / sp.totalBytes * 100)
+      },
+      null,
+      () => {
+        this.uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          this.uploadEnd = true
+          this.downloadURL = downloadURL
+          this.$emit('downloadURL', downloadURL)
+        })
+      })
+    }
   }
 }
 </script>

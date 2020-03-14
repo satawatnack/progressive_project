@@ -3,11 +3,12 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">My Feeds</h3>
+        <input class="form-control" type="text" v-model="search" placeholder="Search" />
       </div>
       <div class="panel-body">
         <table class="table table-striped">
           <tbody>
-            <div :key="key" v-for="(post, key) in posts">
+            <div :key="key" v-for="(post, key) in resultQuery">
               <div v-if="updateKey === key">
                 <div><input type="text" v-model="updatePost.title" placeholder="title"></div>
                 <div><input type="text" v-model="updatePost.type" placeholder="type"></div>
@@ -76,7 +77,8 @@ export default {
           type: '',
           status: '',
           detail: '',
-      }
+      },
+      search: ''
     }
   },
   methods: {
@@ -206,6 +208,13 @@ export default {
     usersRef.on('value', (snapshot) => {
       this.users = snapshot.val()
     })
+  },
+  computed: {
+    resultQuery() {
+      return Object.values(this.posts).filter(post => {
+        return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
   }
 }
 </script>

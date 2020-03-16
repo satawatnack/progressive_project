@@ -1,17 +1,17 @@
 <template>
   <div class="home" style="overflow:hidden;">
+    <Navbar></Navbar>
     <b-row class="text-center">
       <b-col></b-col>
       <b-col class="p-0 mt-3" cols="8">
         <Homefeeds></Homefeeds>
       </b-col>
       <b-col class="p-3">
-        <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 60px;"></b-img>
+        <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 100px;"></b-img>
         <div :key="key" v-for="(user, key) in users">
-            <p class="m-2" v-if="user.uid === userid">welcome <br>{{user.name}}</p>
+            <p class="m-2" v-if="user.uid === userid"><b>welcome</b> <br>{{user.name}}</p>
         </div>
-        <router-link to="/profile">profile</router-link><br>
-        <button @click="logout">logout</button>
+        <button class="btn btn-danger" @click="logout">logout</button>
       </b-col>
   </b-row>
 
@@ -20,6 +20,7 @@
 
 <script>
 import Homefeeds from '@/components/Homefeeds.vue'
+import  Navbar from '@/components/Navbar.vue'
 const fb = require('../firebaseConfig.js')
 let usersRef = fb.db.ref('/users')
 export default {
@@ -32,7 +33,8 @@ export default {
     }
   },
   components: {
-    Homefeeds
+    Homefeeds,
+    Navbar
   },
   methods: {
     logout: function() {

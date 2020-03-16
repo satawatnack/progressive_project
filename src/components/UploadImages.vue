@@ -1,14 +1,9 @@
 <template>
   <div>
-    <v-btn
+    <v-btn class="btn btn-secondary"
       @click.native="selectFile"
       v-if="!uploadEnd && !uploading">
-        Upload a cover image
-        <v-icon
-        right
-        aria-hidden="true">
-          add_a_photo
-        </v-icon>
+        Upload a profile image
     </v-btn>
     <form ref="form">
       <input
@@ -20,34 +15,24 @@
       :multiple="false"
       @change="detectFiles($event)" />
     </form>
-      <v-progress-circular
-        v-if="uploading && !uploadEnd"
-        :size="100"
-        :width="15"
-        :rotate="360"
-        :value="progressUpload"
-        color="primary">
-        %
-      </v-progress-circular>
-      <img
-        v-if="uploadEnd"
-        :src="downloadURL"
-        width="100%" />
+      <pulse-loader v-if="uploading && !uploadEnd" :loading="loading" :color="color" :size="size"></pulse-loader>
+      <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;"></b-img><br><br>
       <div v-if="uploadEnd">
         <v-btn
-          class="ma-0"
+          class="ma-0 btn btn-danger"
           dark
           small
           color="error"
           @click="deleteImage()"
           >
-          Delete
+          Cancel
         </v-btn>
       </div>
   </div>
 </template>
 
 <script>
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 const fb = require('../firebaseConfig.js')
 
 export default {
@@ -58,8 +43,14 @@ export default {
       uploadTask: '',
       uploading: false,
       uploadEnd: false,
-      downloadURL: ''
+      downloadURL: '',
+      loading: false,
+      color: 'black',
+      size: '20px'
     }
+  },
+  components: {
+    PulseLoader
   },
   methods: {
     selectFile () {

@@ -22,17 +22,16 @@
             <label for="postDetail">Detail:</label>
             <input type="text" id="postDetail" class="form-control" v-model="newPost.detail">
           </div>
-          <v-btn
+          <v-btn class="btn btn-secondary"
             @click.native="selectFile"
             v-if="!uploadEnd && !uploading">
-                Upload image
-                <v-icon
-                right
-                aria-hidden="true">
-                add_a_photo
-                </v-icon>
-            </v-btn>
-            <form ref="form">
+              Upload image
+              <v-icon
+              right
+              aria-hidden="true">
+              </v-icon>
+          </v-btn>
+          <form ref="form">
             <input
             id="files"
             type="file"
@@ -41,31 +40,20 @@
             accept="image/*"
             :multiple="false"
             @change="detectFiles($event)" />
-            </form>
-            <v-progress-circular
-                v-if="uploading && !uploadEnd"
-                :size="100"
-                :width="15"
-                :rotate="360"
-                :value="progressUpload"
-                color="primary">
-                %
-            </v-progress-circular>
-            <img
-                v-if="uploadEnd"
-                :src="downloadURL"
-                width="100%" />
+          </form>
+            <pulse-loader v-if="uploading && !uploadEnd" :loading="loading" :color="color" :size="size"></pulse-loader>
+            <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;"></b-img><br><br>
             <div v-if="uploadEnd">
-                <v-btn
-                class="ma-0"
+              <v-btn
+                class="ma-0 btn btn-danger"
                 dark
                 small
                 color="error"
                 @click="deleteImage()"
                 >
-                Delete
-                </v-btn>
-            </div><br>
+                Cancel
+              </v-btn>
+            </div>
             <input type="submit" class="btn btn-primary" value="Add Post">
         </form>
       </div>
@@ -119,6 +107,7 @@ const fb = require('../firebaseConfig.js')
 let postsRef = fb.db.ref('/posts')
 let usersRef = fb.db.ref('/users')
 
+
 export default {
   name: 'homefeeds',
   data () {
@@ -149,7 +138,10 @@ export default {
           status: '',
           detail: '',
       },
-      search: ''
+      search: '',
+      loading: false,
+      color: 'black',
+      size: '20px'
     }
   },
   methods: {

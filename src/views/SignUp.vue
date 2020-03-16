@@ -1,13 +1,25 @@
 <template>
-    <div class="sign-up">
-        <h3>Let's create a new account !</h3>
-        <input type="text" v-model="email" placeholder="Email"><br>
-        <input type="password" v-model="password" placeholder="Password"><br>
-        <input type="text" v-model="name" placeholder="Firstname Lastname"><br>
-        <input type="text" v-model="tel" placeholder="Phone Number"><br>
-        <button @click="next">next</button>
-        <span>or go back to <router-link to="login">login.</router-link></span>
-    </div>
+        <header class="masthead">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <b-row>
+                        <b-col class="col-6"><div style="height: 40%"></div><h3>JUSTRENT</h3></b-col>
+                        <b-col class="col-4">
+                            <h4>Let's create a new account !</h4><br>
+                            <input class="form-control" type="text" v-model="email" placeholder="Email">
+                            <input class="form-control" type="password" v-model="password" placeholder="Password">
+                            <input class="form-control" type="text" v-model="name" placeholder="Firstname Lastname">
+                            <input class="form-control" type="text" v-model="tel" placeholder="Phone Number">
+                            <button class="btn btn-light" @click="next">next</button><br>
+                            <p>or go back to <router-link to="login">login.</router-link></p>
+                        </b-col>
+                        <b-col class="col-2"></b-col>
+                    </b-row>
+                </div>
+                </div>
+            </div>
+        </header>
 </template>
 
 <script>
@@ -48,22 +60,28 @@ export default {
 </script>
 
 <style scoped>
-    .login {
-        margin-top: 40px;
-    }
     input {
-        margin: 10px 0;
-        width: 20%;
-        padding: 15px;
+        margin: 15px 0;
+        padding: 20px;
     }
     button {
         margin-top: 20px;
-        width: 10%;
         cursor: pointer;
     }
-    span {
-        display: block;
+    p {
         margin-top: 10px;
-        font-size: 11px;
+        font-size: 13px;
+    }
+    p a {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .masthead {
+        height: 100vh;
+        min-height: 500px;
+        background-image: url('../assets/bg.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 </style>

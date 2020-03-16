@@ -1,12 +1,25 @@
 <template>
     <div class="login">
-        <h3>Sign In</h3>
-        <input type="text" v-model="email" placeholder="Email"><br>
-        <input type="password" v-model="password" placeholder="Password"><br>
-        <button @click="login">Login</button>
-        <button @click="socialFacecbookLogin">Facebook</button>
-        <button @click="socialGoogleLogin">Google</button>
-        <p>You don't have an account ? you can <router-link to="sign-up">create one</router-link></p>
+        <header class="masthead">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <b-row>
+                        <b-col sm="6"><div style="height: 40%"></div><h3 style="color: #474747">JUSTRENT</h3><div style="height: 40px"></div></b-col>
+                        <b-col sm="4">
+                            <h3 style="color: 474745">Sign In</h3><br>
+                            <input class="form-control" type="text" v-model="email" placeholder="Email">
+                            <input class="form-control" type="password" v-model="password" placeholder="Password"><br>
+                            <button class="btn btn-dark" @click="login">Sign In</button> <p>or</p>
+                            <button class="btn btn-primary" @click="socialFacecbookLogin">Facebook</button>
+                            <button class="btn btn-danger" @click="socialGoogleLogin">Google</button>
+                            <p>You don't have an account ? you can <router-link to="sign-up">create one</router-link></p>
+                        </b-col>
+                    </b-row>
+                </div>
+                </div>
+            </div>
+        </header>
     </div>
 </template>
 
@@ -68,25 +81,24 @@ export default {
 </script>
 
 <style scoped>
-    .login {
-        margin-top: 40px;
-    }
     input {
-        margin: 10px 0;
-        width: 20%;
+        margin: 15px 0;
         padding: 15px;
     }
-    button {
-        margin-top: 20px;
-        width: 10%;
-        cursor: pointer;
-    }
     p {
-        margin-top: 40px;
+        margin-top: 10px;
         font-size: 13px;
     }
     p a {
         text-decoration: underline;
         cursor: pointer;
+    }
+    .masthead {
+        height: 100vh;
+        min-height: 500px;
+        background-image: url('../assets/bg.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 </style>

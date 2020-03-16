@@ -7,7 +7,10 @@
       <b-navbar-toggle target="left-collapse"></b-navbar-toggle>
       <b-collapse id="left-collapse" class="navbar-menu-group" is-nav>
         <b-navbar-nav class="navlink">
-          <b-nav-item><router-link to="/">home</router-link></b-nav-item>
+          <b-nav-item><router-link to="home">home</router-link></b-nav-item>
+        </b-navbar-nav>
+        <b-navbar-nav class="navlink">
+          <b-nav-item><router-link to="profile">profile</router-link></b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

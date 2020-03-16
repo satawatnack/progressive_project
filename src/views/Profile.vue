@@ -1,27 +1,14 @@
 <template>
   <div class="home" style="overflow:hidden;">
+    <Navbar></Navbar>
     <b-row class="text-center">
       <b-col></b-col>
       <b-col class="p-0 mt-3" cols="8">
-        <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 60px;"></b-img>
+        <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 350px;"></b-img>
         <div>
-            <v-progress-circular
-                v-if="uploading && !uploadEnd"
-                :size="100"
-                :width="15"
-                :rotate="360"
-                :value="progressUpload"
-                color="primary">
-                %
-            </v-progress-circular>
-            <v-btn
+            <v-btn class="btn btn-secondary"
             @click.native="selectFile">
                 change a profile image
-                <v-icon
-                right
-                aria-hidden="true">
-                add_a_photo
-                </v-icon>
             </v-btn>
             <form ref="form">
             <input
@@ -51,7 +38,7 @@
         <Myfeeds></Myfeeds>
       </b-col>
       <b-col class="p-3">
-        <button @click="logout">logout</button>
+        <button class="btn btn-danger" @click="logout">logout</button>
       </b-col>
   </b-row>
 
@@ -60,6 +47,7 @@
 
 <script>
 import Myfeeds from '@/components/Myfeeds.vue'
+import  Navbar from '@/components/Navbar.vue'
 const fb = require('../firebaseConfig.js')
 let usersRef = fb.db.ref('/users')
 export default {
@@ -83,7 +71,8 @@ export default {
     }
   },
   components: {
-    Myfeeds
+    Myfeeds,
+    Navbar
   },
   methods: {
     logout: function() {

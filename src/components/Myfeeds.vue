@@ -211,9 +211,14 @@ export default {
   },
   computed: {
     resultQuery() {
-      return Object.values(this.posts).filter(post => {
+      if(this.search){
+        return Object.values(this.posts).filter(post => {
         return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase())
       })
+      }
+      else {
+        return this.posts
+      }
     }
   }
 }

@@ -26,10 +26,6 @@
             @click.native="selectFile"
             v-if="!uploadEnd && !uploading">
               Upload image
-              <v-icon
-              right
-              aria-hidden="true">
-              </v-icon>
           </v-btn>
           <form ref="form">
             <input
@@ -245,7 +241,7 @@ export default {
         this.updatePost.type = ''
         this.updatePost.status = ''
         this.updatePost.detail = ''
-    },
+    }
   },
   watch: {
     uploadTask: function () {

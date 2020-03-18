@@ -41,7 +41,6 @@
             :multiple="false"
             @change="detectFiles($event)" />
           </form>
-            <pulse-loader v-if="uploading && !uploadEnd" :loading="loading" :color="color" :size="size"></pulse-loader>
             <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;"></b-img><br><br>
             <div v-if="uploadEnd">
               <v-btn
@@ -106,7 +105,6 @@
 const fb = require('../firebaseConfig.js')
 let postsRef = fb.db.ref('/posts')
 let usersRef = fb.db.ref('/users')
-
 
 export default {
   name: 'homefeeds',

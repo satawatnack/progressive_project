@@ -15,7 +15,6 @@
       :multiple="false"
       @change="detectFiles($event)" />
     </form>
-      <pulse-loader v-if="uploading && !uploadEnd" :loading="loading" :color="color" :size="size"></pulse-loader>
       <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;"></b-img><br><br>
       <div v-if="uploadEnd">
         <v-btn
@@ -32,7 +31,6 @@
 </template>
 
 <script>
-import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 const fb = require('../firebaseConfig.js')
 
 export default {
@@ -48,9 +46,6 @@ export default {
       color: 'black',
       size: '20px'
     }
-  },
-  components: {
-    PulseLoader
   },
   methods: {
     selectFile () {

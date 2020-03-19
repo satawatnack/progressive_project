@@ -11,8 +11,12 @@
             <input type="text" id="postTitle" class="form-control" v-model="newPost.title">
           </div>
           <div class="form-group">
-            <label for="postType">Type:</label>
-            <input type="text" id="postType" class="form-control" v-model="newPost.type">
+            <label for="postType">Type:</label><br>
+            <select v-model="selected">
+              <option v-for="option in options" v-bind:value="option.value" :disabled="option.disabled" :key="option.value">
+                {{ option.text }}
+              </option>
+            </select>
           </div>
           <div class="form-group">
             <label for="postStatus">Status:</label>
@@ -86,16 +90,24 @@ export default {
       users: {},
       loading: false,
       color: 'black',
-      size: '20px'
+      size: '20px',
+      selected: '',
+      options: [
+        { text: 'Please select one', value: '', "disabled": true,},
+        { text: 'car', value: 'car' },
+        { text: 'house', value: 'house' },
+        { text: 'computer', value: 'computer' }
+      ]
     }
   },
   methods: {
     addPost () {
       const today = new Date();
-      const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      const dateTime = date +' '+ time;
-      this.newPost.time = dateTime;
+      const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+      const dateTime = date +' '+ time
+      this.newPost.time = dateTime
+      this.newPost.type = this.selected
       postsRef.push(this.newPost)
       this.uploading = false
       this.uploadEnd = false

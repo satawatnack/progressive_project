@@ -53,47 +53,6 @@
         </form>
       </div>
     </div>
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Feed</h3>
-        <input class="form-control" type="text" v-model="search" placeholder="Search" />
-      </div>
-      <div class="panel-body">
-        <table class="table table-striped">
-          <tbody>
-            <div :key="key" v-for="(post, key) in resultQuery">
-              <div v-if="updateKey === key">
-                <div><input type="text" v-model="updatePost.title" placeholder="title"></div>
-                <div><input type="text" v-model="updatePost.type" placeholder="type"></div>
-                <div><input type="text" v-model="updatePost.status" placeholder="status"></div>
-                <div>{{post.time}}</div>
-                <div><input type="text" v-model="updatePost.detail" placeholder="type"></div>
-                <div><b-img thumbnail fluid rounded :src=getUrl(post) alt="Image" style="width: 300px;"></b-img></div>
-                <div>post by : {{getUserName(post.uid)}}</div>
-                <div>tel : {{getUserTel(post.uid)}}</div>
-                <div><button @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.detail)">Save</button></div>
-              </div>
-              <tr v-else>
-                <td>{{post.title}}</td>
-                <td>{{post.type}}</td>
-                <td>{{post.status}}</td>
-                <td>{{post.time}}</td>
-                <td>{{post.detail}}</td>
-                <td ><b-img thumbnail fluid rounded :src=getUrl(post) alt="Image" style="width: 300px;"></b-img></td>
-                <td>post by : {{getUserName(post.uid)}}</td>
-                <td>tel : {{getUserTel(post.uid)}}</td>
-                <td>
-                    <button v-if="post.uid==uid" @click="setUpdatePost(key, post)">Update</button><br>
-                    <button v-if="post.uid==uid" @click="removePost(post, key)">Remove</button>
-                </td>
-              </tr>
-              <br>
-            </div>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -125,14 +84,6 @@ export default {
       posts: {},
       imgUrl: '',
       users: {},
-      updateKey: '',
-      updatePost: {
-          title: '',
-          type: '',
-          status: '',
-          detail: '',
-      },
-      search: '',
       loading: false,
       color: 'black',
       size: '20px'
@@ -157,21 +108,6 @@ export default {
       this.newPost.imageTime = ''
       this.newPost.detail = ''
       this.newPost.uid = ''
-    },
-    removePost (post, key) {
-        if(post.uid == fb.auth.currentUser.uid){
-            postsRef.child(key).remove()
-            fb.storage
-            .ref('posts/' + post.imageTime +  post.uid)
-            .delete()
-            .catch((error) => {
-            console.error(`file delete error occured: ${error}`)
-            })
-            alert('Post removed successfully')
-        }
-        else {
-            alert('It isn\'t your post')
-        }
     },
     selectFile () {
       this.$refs.uploadInput.click()
@@ -205,42 +141,6 @@ export default {
           console.error(`file delete error occured: ${error}`)
         })
       this.$refs.form.reset()
-    },
-    getUrl (post) {
-        fb.storage.ref('posts/' + post.imageTime +  post.uid).getDownloadURL().then((url) => {
-            this.imgUrl = url
-        })
-        return this.imgUrl
-    },
-    getUserTel (uid) {
-        for (var i in this.users) {
-            if (this.users[i].uid == uid) return this.users[i].tel
-        }
-    },
-    getUserName (uid) {
-        for (var i in this.users) {
-            if (this.users[i].uid == uid) return this.users[i].name
-        }
-    },
-    setUpdatePost (key, post) {
-        this.updateKey = key
-        this.updatePost.title = post.title
-        this.updatePost.type = post.type
-        this.updatePost.status = post.status
-        this.updatePost.detail = post.detail
-    },
-    updateThisPost (title, type, status, detail) {
-        postsRef.child(this.updateKey).update({
-            title: title,
-            type: type,
-            status: status,
-            detail: detail
-        })
-        this.updateKey = ''
-        this.updatePost.title = ''
-        this.updatePost.type = ''
-        this.updatePost.status = ''
-        this.updatePost.detail = ''
     }
   },
   watch: {
@@ -281,7 +181,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .progress-bar {
   margin: 10px 0;
 }

@@ -4,15 +4,19 @@
     <b-row class="text-center">
       <b-col></b-col>
       <b-col class="p-0 mt-3" cols="8">
-        <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 350px;"></b-img>
+        <div>
+          <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;"></b-img>
+          <b-img v-else thumbnail fluid rounded :src=getUrl(userid) alt="Image" style="width: 300px;"></b-img>
+        </div>
         <div>
             <v-btn class="btn btn-secondary"
             @click.native="selectFile">
-                change a profile image
+                change a profile picture
             </v-btn>
             <form ref="form">
             <input
             id="files"
+            style="display: none"
             type="file"
             name="file"
             ref="uploadInput"

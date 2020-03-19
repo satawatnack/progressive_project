@@ -5,6 +5,7 @@
       <b-col></b-col>
       <b-col class="p-0 mt-3" cols="8">
         <Homefeeds></Homefeeds>
+        <Newfeeds></Newfeeds>
       </b-col>
       <b-col class="p-3">
         <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 100px;"></b-img>
@@ -21,6 +22,7 @@
 <script>
 import Homefeeds from '@/components/Homefeeds.vue'
 import  Navbar from '@/components/Navbar.vue'
+import Newfeeds from '@/components/Newfeeds.vue'
 const fb = require('../firebaseConfig.js')
 let usersRef = fb.db.ref('/users')
 export default {
@@ -34,7 +36,8 @@ export default {
   },
   components: {
     Homefeeds,
-    Navbar
+    Navbar,
+    Newfeeds
   },
   methods: {
     logout: function() {

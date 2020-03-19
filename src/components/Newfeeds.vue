@@ -2,7 +2,7 @@
   <div>
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">My Feed</h3>
+        <h3 class="panel-title">Feed</h3>
         <input class="form-control" type="text" v-model="search" placeholder="Search" />
       </div>
       <div class="panel-body">
@@ -35,7 +35,7 @@
                 </div>
                 <div><button @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.detail)">Save</button></div>
               </div>
-              <tr v-else-if="post.uid==uid">
+              <tr v-else>
                 <td>{{post.title}}</td>
                 <td>{{post.type}}</td>
                 <td>{{post.status}}</td>

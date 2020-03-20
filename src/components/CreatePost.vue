@@ -94,9 +94,18 @@ export default {
       selected: '',
       options: [
         { text: 'Please select one', value: '', "disabled": true,},
+        { text: 'camara', value: 'camara' },
+        { text: 'watch', value: 'watch' },
+        { text: 'bag', value: 'bag' },
+        { text: 'book', value: 'book' },
+        { text: 'bicycle', value: 'bicycle' },
+        { text: 'motorcycle', value: 'motorcycle' },
         { text: 'car', value: 'car' },
+        { text: 'land', value: 'land' },
         { text: 'house', value: 'house' },
-        { text: 'computer', value: 'computer' }
+        { text: 'condominium', value: 'condominium' },
+        { text: 'apartment', value: 'apartment' },
+        { text: 'other', value: 'other' }
       ]
     }
   },

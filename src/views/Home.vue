@@ -4,7 +4,7 @@
     <b-row class="text-center">
       <b-col></b-col>
       <b-col class="p-0 mt-3" cols="8">
-        <Homefeeds></Homefeeds>
+        <CreatePost></CreatePost>
         <Newfeeds></Newfeeds>
       </b-col>
       <b-col class="p-3">
@@ -14,13 +14,12 @@
         </div>
         <button class="btn btn-danger" @click="logout">logout</button>
       </b-col>
-  </b-row>
-
+    </b-row>
   </div>
 </template>
 
 <script>
-import Homefeeds from '@/components/Homefeeds.vue'
+import CreatePost from '@/components/CreatePost.vue'
 import  Navbar from '@/components/Navbar.vue'
 import Newfeeds from '@/components/Newfeeds.vue'
 const fb = require('../firebaseConfig.js')
@@ -35,7 +34,7 @@ export default {
     }
   },
   components: {
-    Homefeeds,
+    CreatePost,
     Navbar,
     Newfeeds
   },

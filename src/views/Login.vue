@@ -9,7 +9,7 @@
                         <b-col sm="4">
                             <h3 style="color: 474745">Sign In</h3><br>
                             <input class="form-control" type="text" v-model="email" placeholder="Email">
-                            <input class="form-control" type="password" v-model="password" placeholder="Password"><br>
+                            <input class="form-control" type="password" v-model="password" placeholder="Password" v-on:keyup.enter="login"><br>
                             <button class="btn btn-dark" @click="login">Sign In</button> <p>or</p>
                             <button class="btn btn-primary" @click="socialFacecbookLogin">Facebook</button>
                             <button class="btn btn-danger" @click="socialGoogleLogin">Google</button>

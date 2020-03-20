@@ -3,7 +3,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Feed</h3>
-        <input class="form-control" type="text" v-model="search" placeholder="Search" />
+        <input class="form-control" type="text" v-model="searchType" placeholder="Search" />
       </div>
       <div class="panel-body">
         <table class="table table-striped">
@@ -90,6 +90,7 @@ export default {
       size: '20px'
     }
   },
+  props: ['searchType'],
   methods: {
     detectFiles (e, imgTime, uid) {
       let fileList = e.target.files || e.dataTransfer.files
@@ -182,10 +183,10 @@ export default {
   },
   computed: {
     resultQuery() {
-      if(this.search){
+      if(this.searchType){
         return Object.values(this.posts).filter(post => {
-        return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase())
-      })
+          return post.title.toLowerCase().includes(this.searchType.toLowerCase()) || post.type.toLowerCase().includes(this.searchType.toLowerCase())
+        })
       }
       else {
         return this.posts

@@ -3,7 +3,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">My Feed</h3>
-        <input class="form-control" type="text" v-model="search" placeholder="Search" />
+        <input class="form-control" type="text" v-model="searchType" placeholder="Search" />
       </div>
       <div class="panel-body">
         <table class="table table-striped">
@@ -16,8 +16,9 @@
                 <div>{{post.time}}</div>
                 <div><input type="text" v-model="updatePost.detail" placeholder="type"></div>
                 <div>
-                    <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;"></b-img>
-                    <b-img v-else thumbnail fluid rounded :src=getUrl(post) alt="Image" style="width: 300px;"></b-img>
+                    <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 300px;"></b-img>
+                    <b-img v-else-if="post.image" thumbnail fluid rounded :src=getUrl(post) alt="Image" style="width: 300px;"></b-img>
+                    <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" style="width: 300px;"></b-img>
                 </div>
                 <div>post by : {{getUserName(post.uid)}}</div>
                 <div>tel : {{getUserTel(post.uid)}}</div>
@@ -41,7 +42,10 @@
                 <td>{{post.status}}</td>
                 <td>{{post.time}}</td>
                 <td>{{post.detail}}</td>
-                <td ><b-img thumbnail fluid rounded :src=getUrl(post) alt="Image" style="width: 300px;"></b-img></td>
+                <td >
+                  <b-img v-if="post.image" thumbnail fluid rounded :src="getUrl(post)"  alt="Image" style="width: 300px;"></b-img>
+                  <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" style="width: 300px;"></b-img>
+                </td>
                 <td>post by : {{getUserName(post.uid)}}</td>
                 <td>tel : {{getUserTel(post.uid)}}</td>
                 <td>
@@ -75,7 +79,7 @@ export default {
       downloadURL: '',
       uid: fb.auth.currentUser.uid,
       posts: {},
-      imgUrl: '',
+      imgUrls: {},
       users: {},
       updateKey: '',
       updatePost: {
@@ -90,6 +94,7 @@ export default {
       size: '20px'
     }
   },
+  props: ['searchType'],
   methods: {
     detectFiles (e, imgTime, uid) {
       let fileList = e.target.files || e.dataTransfer.files
@@ -102,17 +107,18 @@ export default {
       this.uploading = true
       this.uploadTask = fb.storage.ref('posts/' + imgTime + uid).put(file)
       fb.storage.ref('posts/' + imgTime+  uid).getDownloadURL().then((url) => {
-            document.getElementById("updatePostImg").src = url
-        })
+        const imgdiv = document.getElementById("updatePostImg")
+        if(imgdiv) imgdiv.src = url
+      })
+      postsRef.child(this.updateKey).update({
+        image: true
+      })
     },
     getUrl (post) {
-        fb.storage.ref('posts/' + post.imageTime +  post.uid).getDownloadURL().then((url) => {
-            this.imgUrl = url
-        }).catch(function(error) {
-          console.log(error)
-          return require('../assets/defult.jpg')
-        })
-        return this.imgUrl
+      fb.storage.ref('posts/' + post.imageTime +  post.uid).getDownloadURL().then((url) => {
+        this.$set(this.imgUrls, post.imageTime +  post.uid, url);
+      })
+      return this.imgUrls[post.imageTime +  post.uid]
     },
     getUserTel (uid) {
         for (var i in this.users) {
@@ -143,6 +149,7 @@ export default {
         this.updatePost.type = ''
         this.updatePost.status = ''
         this.updatePost.detail = ''
+        this.uploadEnd = false
     },
     removePost (post, key) {
         if(post.uid == fb.auth.currentUser.uid){
@@ -185,10 +192,10 @@ export default {
   },
   computed: {
     resultQuery() {
-      if(this.search){
+      if(this.searchType){
         return Object.values(this.posts).filter(post => {
-        return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase())
-      })
+          return post.title.toLowerCase().includes(this.searchType.toLowerCase()) || post.type.toLowerCase().includes(this.searchType.toLowerCase())
+        })
       }
       else {
         return this.posts

@@ -97,6 +97,7 @@ export default {
           status: '',
           time: '',
           imageTime: '',
+          image: false,
           detail: '',
           uid: fb.auth.currentUser.uid
       },
@@ -138,6 +139,7 @@ export default {
         const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
         const dateTime = date +' '+ time
         this.newPost.imageTime = dateTime
+        this.newPost.image = false
       }
       postsRef.push(this.newPost)
       this.uploading = false
@@ -149,6 +151,7 @@ export default {
       this.newPost.status = ''
       this.newPost.time = ''
       this.newPost.imageTime = ''
+      this.newPost.image = false
       this.newPost.detail = ''
     },
     selectFile () {
@@ -166,6 +169,7 @@ export default {
       const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
       const dateTime = date +' '+ time;
       this.newPost.imageTime = dateTime
+      this.newPost.image = true
       this.fileName = file.name
       this.uploading = true
       this.uploadTask = fb.storage.ref('posts/' + this.newPost.imageTime + fb.auth.currentUser.uid).put(file)

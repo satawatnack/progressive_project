@@ -108,6 +108,9 @@ export default {
     getUrl (post) {
         fb.storage.ref('posts/' + post.imageTime +  post.uid).getDownloadURL().then((url) => {
             this.imgUrl = url
+        }).catch(function(error) {
+          console.log(error)
+          return require('../assets/defult.jpg')
         })
         return this.imgUrl
     },

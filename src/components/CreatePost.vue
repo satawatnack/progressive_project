@@ -2,58 +2,73 @@
   <div>
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Add New Posts</h3>
+        <h3 class="panel-title mt-3 mb-4">Add New Posts</h3>
       </div>
       <div class="panel-body">
          <form id="form" class="form" v-on:submit.prevent="addPost">
-          <div class="form-group">
-            <label for="postTitle">Title:</label>
-            <input type="text" id="postTitle" class="form-control" v-model="newPost.title">
-          </div>
-          <div class="form-group">
-            <label for="postType">Type:</label><br>
-            <select v-model="selected">
-              <option v-for="option in options" v-bind:value="option.value" :disabled="option.disabled" :key="option.value">
-                {{ option.text }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="postStatus">Status:</label>
-            <input type="text" id="postStatus" class="form-control" v-model="newPost.status">
-          </div>
-          <div class="form-group">
-            <label for="postDetail">Detail:</label>
-            <input type="text" id="postDetail" class="form-control" v-model="newPost.detail">
-          </div>
-          <v-btn class="btn btn-secondary"
-            @click.native="selectFile"
-            v-if="!uploadEnd && !uploading">
-              Upload image
-          </v-btn>
-          <form ref="form">
-            <input
-            id="files"
-            type="file"
-            name="file"
-            ref="uploadInput"
-            accept="image/*"
-            :multiple="false"
-            @change="detectFiles($event)" />
-          </form>
-            <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;"></b-img><br><br>
-            <div v-if="uploadEnd">
-              <v-btn
-                class="ma-0 btn btn-danger"
-                dark
-                small
-                color="error"
-                @click="deleteImage()"
-                >
-                Cancel
+          <b-row>
+            <b-col sm="6">
+              <div class="form-group row mt-4">
+                <label for="postTitle" class="col-sm-2 col-form-label">Title</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="postTitle" v-model="newPost.title" placeholder="title">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="postType" class="col-sm-2 col-form-label">Type</label>
+                <div class="col-sm-10">
+                  <select v-model="selected" class="form-control">
+                    <option v-for="option in options" v-bind:value="option.value" :disabled="option.disabled" :key="option.value">
+                      {{ option.text }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="postStatus" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="postStatus" v-model="newPost.status" placeholder="status">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="postDetail" class="col-sm-2 col-form-label">Detail</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" rows="5" id="postDetail" v-model="newPost.detail" placeholder="detail"></textarea>
+                </div>
+              </div>
+            </b-col>
+            <b-col sm="6">
+              <b-img class="mb-3" v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;height:350px; object-fit: cover;"></b-img>
+              <b-img class="mb-3" v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')" alt="Image" style="width: 350px;height:350px; object-fit: cover;"></b-img>
+              <v-btn class="btn btn-secondary"
+                @click.native="selectFile"
+                v-if="!uploadEnd && !uploading">
+                  Upload image
               </v-btn>
-            </div>
-            <input type="submit" class="btn btn-primary" value="Add Post">
+              <form ref="form">
+                <input
+                id="files"
+                type="file"
+                name="file"
+                ref="uploadInput"
+                accept="image/*"
+                :multiple="false"
+                @change="detectFiles($event)" />
+              </form>
+              <div v-if="uploadEnd">
+                <v-btn
+                    class="ma-0 btn btn-danger"
+                    dark
+                    small
+                    color="error"
+                    @click="deleteImage()"
+                    >
+                    Cancel
+                </v-btn>
+              </div>
+            </b-col>
+          </b-row>
+          <input type="submit" class="btn btn-primary" value="Add Post">
         </form>
       </div>
     </div>
@@ -117,6 +132,13 @@ export default {
       const dateTime = date +' '+ time
       this.newPost.time = dateTime
       this.newPost.type = this.selected
+      if(!this.newPost.imageTime) {
+        const today = new Date();
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+        const dateTime = date +' '+ time
+        this.newPost.imageTime = dateTime
+      }
       postsRef.push(this.newPost)
       this.uploading = false
       this.uploadEnd = false
@@ -128,7 +150,6 @@ export default {
       this.newPost.time = ''
       this.newPost.imageTime = ''
       this.newPost.detail = ''
-      this.newPost.uid = ''
     },
     selectFile () {
       this.$refs.uploadInput.click()
@@ -141,8 +162,8 @@ export default {
     },
     upload (file) {
       const today = new Date();
-      const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+      const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
       const dateTime = date +' '+ time;
       this.newPost.imageTime = dateTime
       this.fileName = file.name
@@ -191,7 +212,7 @@ export default {
     resultQuery() {
       if(this.search){
         return Object.values(this.posts).filter(post => {
-        return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase())
+          return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase())
       })
       }
       else {

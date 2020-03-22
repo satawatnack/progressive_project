@@ -46,7 +46,7 @@
                   <b-img v-if="post.image" thumbnail fluid rounded :src="getUrl(post)"  alt="Image" style="width: 300px;"></b-img>
                   <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" style="width: 300px;"></b-img>
                 </td>
-                <td><b-img thumbnail fluid rounded :src="getUserProfile(post.uid)"  alt="Image" style="width: 300px;"></b-img></td>
+                <td><b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img></td>
                 <td>post by : {{getUserName(post.uid)}}</td>
                 <td>tel : {{getUserTel(post.uid)}}</td>
                 <td>
@@ -93,7 +93,8 @@ export default {
       search: '',
       loading: false,
       color: 'black',
-      size: '20px'
+      size: '20px',
+      mainProps: { width: 75, height: 75, class: 'm1' }
     }
   },
   props: ['searchType'],

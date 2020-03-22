@@ -154,12 +154,14 @@ export default {
     removePost (post, key) {
         if(post.uid == fb.auth.currentUser.uid){
             postsRef.child(key).remove()
-            fb.storage
-            .ref('posts/' + post.imageTime +  post.uid)
-            .delete()
-            .catch((error) => {
-            console.error(`file delete error occured: ${error}`)
-            })
+            if(post.image){
+              fb.storage
+              .ref('posts/' + post.imageTime +  post.uid)
+              .delete()
+              .catch((error) => {
+              console.error(`file delete error occured: ${error}`)
+              })
+            }
             alert('Post removed successfully')
         }
         else {

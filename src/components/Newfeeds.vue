@@ -46,6 +46,7 @@
                   <b-img v-if="post.image" thumbnail fluid rounded :src="getUrl(post)"  alt="Image" style="width: 300px;"></b-img>
                   <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" style="width: 300px;"></b-img>
                 </td>
+                <td><b-img thumbnail fluid rounded :src="getUserProfile(post.uid)"  alt="Image" style="width: 300px;"></b-img></td>
                 <td>post by : {{getUserName(post.uid)}}</td>
                 <td>tel : {{getUserTel(post.uid)}}</td>
                 <td>
@@ -80,6 +81,7 @@ export default {
       uid: fb.auth.currentUser.uid,
       posts: {},
       imgUrls: {},
+      profileImgs: {},
       users: {},
       updateKey: '',
       updatePost: {
@@ -129,6 +131,12 @@ export default {
         for (var i in this.users) {
             if (this.users[i].uid == uid) return this.users[i].name
         }
+    },
+    getUserProfile (uid) {
+      fb.storage.ref('profile/' + uid).getDownloadURL().then((url) => {
+        this.$set(this.profileImgs, uid, url);
+      })
+      return this.profileImgs[uid]
     },
     setUpdatePost (key, post) {
         this.updateKey = key

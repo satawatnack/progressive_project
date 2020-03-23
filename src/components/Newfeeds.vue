@@ -1,14 +1,15 @@
 <template>
-  <div>
+  <div class="body">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Feed</h3>
-        <input class="form-control" type="text" v-model="searchType" placeholder="Search" />
+        <h3 class="panel-title mt-5 mb-4">Feed</h3>
+        <input style="display:none;" class="form-control" type="text" v-model="searchType" placeholder="Search" />
+        <input class="form-control" type="text" v-model="search" placeholder="Search" />
       </div>
-      <div class="panel-body">
+      <div class="panel-body"><br>
         <table class="table table-striped">
           <tbody>
-            <div :key="key" v-for="(post, key) in resultQuery">
+            <div :key="key" v-for="(post, key) in dict_reverse(resultSearch)">
               <div v-if="updateKey === key">
                 <div><input type="text" v-model="updatePost.title" placeholder="title"></div>
                 <div><input type="text" v-model="updatePost.type" placeholder="type"></div>
@@ -16,9 +17,9 @@
                 <div>{{post.time}}</div>
                 <div><input type="text" v-model="updatePost.detail" placeholder="type"></div>
                 <div>
-                    <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 300px;"></b-img>
-                    <b-img v-else-if="post.image" thumbnail fluid rounded :src=getUrl(post) alt="Image" style="width: 300px;"></b-img>
-                    <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" style="width: 300px;"></b-img>
+                    <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" class="postImg"></b-img>
+                    <b-img v-else-if="post.image" thumbnail fluid rounded :src=getUrl(post) alt="Image" class="postImg"></b-img>
+                    <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" class="postImg"></b-img>
                 </div>
                 <div>post by : {{getUserName(post.uid)}}</div>
                 <div>tel : {{getUserTel(post.uid)}}</div>
@@ -36,24 +37,36 @@
                 </div>
                 <div><button @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.detail)">Save</button></div>
               </div>
-              <tr v-else>
-                <td>{{post.title}}</td>
-                <td>{{post.type}}</td>
-                <td>{{post.status}}</td>
-                <td>{{post.time}}</td>
-                <td>{{post.detail}}</td>
-                <td >
-                  <b-img v-if="post.image" thumbnail fluid rounded :src="getUrl(post)"  alt="Image" style="width: 300px;"></b-img>
-                  <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" style="width: 300px;"></b-img>
-                </td>
-                <td><b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img></td>
-                <td>post by : {{getUserName(post.uid)}}</td>
-                <td>tel : {{getUserTel(post.uid)}}</td>
-                <td>
-                    <button v-if="post.uid==uid" @click="setUpdatePost(key, post)">edit</button><br>
-                    <button v-if="post.uid==uid" @click="removePost(post, key)">delete</button>
-                </td>
-              </tr>
+              <div v-else class="postDiv">
+                <div class="postDetail">
+                  <b-row>
+                    <b-col cols="2">
+                      <b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img>
+                    </b-col>
+                    <b-col cols="8" align="left">
+                      <p>
+                        <b>{{getUserName(post.uid)}}</b><br>
+                        <b style="font-weight: lighter;">{{post.time}}</b>
+                      </p>
+                    </b-col>
+                    <b-col cols="2">
+                      <b-dropdown v-if="post.uid==uid" class="mt-2">
+                        <b-dropdown-item @click="setUpdatePost(key, post)">edit</b-dropdown-item>
+                        <b-dropdown-item @click="removePost(post, key)">delete</b-dropdown-item>
+                      </b-dropdown>
+                    </b-col>
+                  </b-row>
+                  <div align="left" class="mt-1">
+                    <b>{{post.title}}</b><br>
+                    tel : {{getUserTel(post.uid)}} <br>
+                    type : {{post.type}} <br>
+                    status : {{post.status}} <br><hr>
+                    {{post.detail}}
+                  </div>
+                </div>
+                 <b-img v-if="post.image" :src="getUrl(post)"  alt="Image" class="postImg"></b-img>
+                 <b-img v-else :src="require('../assets/defult.jpg')"  alt="Image" class="postImg"></b-img>
+              </div>
               <br>
             </div>
           </tbody>
@@ -94,11 +107,19 @@ export default {
       loading: false,
       color: 'black',
       size: '20px',
-      mainProps: { width: 75, height: 75, class: 'm1' }
+      mainProps: { width: 50, height: 50, class: 'm1' }
     }
   },
   props: ['searchType'],
   methods: {
+    dict_reverse(obj) {
+      var new_obj= {}
+      var rev_obj = Object.keys(obj).reverse();
+      rev_obj.forEach(function(i) { 
+        new_obj[i] = obj[i];
+      })
+      return new_obj;
+    },
     detectFiles (e, imgTime, uid) {
       let fileList = e.target.files || e.dataTransfer.files
       Array.from(Array(fileList.length).keys()).map(x => {
@@ -171,7 +192,6 @@ export default {
               console.error(`file delete error occured: ${error}`)
               })
             }
-            alert('Post removed successfully')
         }
         else {
             alert('It isn\'t your post')
@@ -203,13 +223,23 @@ export default {
   },
   computed: {
     resultQuery() {
-      if(this.searchType){
+      if(this.searchType) {
         return Object.values(this.posts).filter(post => {
-          return post.title.toLowerCase().includes(this.searchType.toLowerCase()) || post.type.toLowerCase().includes(this.searchType.toLowerCase())
+          return post.title.toLowerCase().includes(this.searchType.toLowerCase()) || post.type.toLowerCase().includes(this.searchType.toLowerCase()) 
         })
       }
       else {
         return this.posts
+      }
+    },
+    resultSearch() {
+      if(this.search) {
+        return Object.values(this.resultQuery).filter(post => {
+          return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase()) 
+        })
+      }
+      else {
+        return this.resultQuery
       }
     }
   }
@@ -219,5 +249,20 @@ export default {
 <style scoped>
 .progress-bar {
   margin: 10px 0;
+}
+.postImg {
+  margin-top: 10px;
+  width: 100%;
+  height:350px;
+  object-fit: cover;
+}
+.postDiv {
+  background-color: white;
+  border-radius: 10px;
+  padding-bottom: 20px;
+}
+.postDetail {
+  padding: 20px 20px 0px 20px;
+  font-size: 14px;
 }
 </style>

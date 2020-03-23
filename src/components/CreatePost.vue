@@ -1,75 +1,80 @@
 <template>
   <div>
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title mt-3 mb-4">Add New Posts</h3>
+      <div v-if="!show" v-on:click="show = true" class="mt-3">
+        <b-button variant="light">Create Post</b-button>
       </div>
-      <div class="panel-body">
-         <form id="form" class="form" v-on:submit.prevent="addPost">
-          <b-row>
-            <b-col sm="6">
-              <div class="form-group row mt-4">
-                <label for="postTitle" class="col-sm-2 col-form-label">Title</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="postTitle" v-model="newPost.title" placeholder="title">
+      <div v-else>
+        <div class="panel-heading">
+          <h3 class="panel-title mt-3 mb-4">Add New Posts</h3>
+        </div>
+        <div class="panel-body">
+          <form id="form" class="form" v-on:submit.prevent="addPost">
+            <b-row>
+              <b-col sm="6">
+                <div class="form-group row mt-4">
+                  <label for="postTitle" class="col-sm-2 col-form-label">Title</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="postTitle" v-model="newPost.title" placeholder="title">
+                  </div>
                 </div>
-              </div>
-              <div class="form-group row">
-                <label for="postType" class="col-sm-2 col-form-label">Type</label>
-                <div class="col-sm-10">
-                  <select v-model="selected" class="form-control">
-                    <option v-for="option in options" v-bind:value="option.value" :disabled="option.disabled" :key="option.value">
-                      {{ option.text }}
-                    </option>
-                  </select>
+                <div class="form-group row">
+                  <label for="postType" class="col-sm-2 col-form-label">Type</label>
+                  <div class="col-sm-10">
+                    <select v-model="selected" class="form-control">
+                      <option v-for="option in options" v-bind:value="option.value" :disabled="option.disabled" :key="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group row">
-                <label for="postStatus" class="col-sm-2 col-form-label">Status</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="postStatus" v-model="newPost.status" placeholder="status">
+                <div class="form-group row">
+                  <label for="postStatus" class="col-sm-2 col-form-label">Status</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="postStatus" v-model="newPost.status" placeholder="status">
+                  </div>
                 </div>
-              </div>
-              <div class="form-group row">
-                <label for="postDetail" class="col-sm-2 col-form-label">Detail</label>
-                <div class="col-sm-10">
-                  <textarea class="form-control" rows="5" id="postDetail" v-model="newPost.detail" placeholder="detail"></textarea>
+                <div class="form-group row">
+                  <label for="postDetail" class="col-sm-2 col-form-label">Detail</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" rows="5" id="postDetail" v-model="newPost.detail" placeholder="detail"></textarea>
+                  </div>
                 </div>
-              </div>
-            </b-col>
-            <b-col sm="6">
-              <b-img class="mb-3" v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;height:350px; object-fit: cover;"></b-img>
-              <b-img class="mb-3" v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')" alt="Image" style="width: 350px;height:350px; object-fit: cover;"></b-img>
-              <v-btn class="btn btn-secondary"
-                @click.native="selectFile"
-                v-if="!uploadEnd && !uploading">
-                  Upload image
-              </v-btn>
-              <form ref="form">
-                <input
-                id="files"
-                type="file"
-                name="file"
-                ref="uploadInput"
-                accept="image/*"
-                :multiple="false"
-                @change="detectFiles($event)" />
-              </form>
-              <div v-if="uploadEnd">
-                <v-btn
-                    class="ma-0 btn btn-danger"
-                    dark
-                    small
-                    color="error"
-                    @click="deleteImage()"
-                    >
-                    Cancel
+              </b-col>
+              <b-col sm="6">
+                <b-img class="mb-3 postImg" v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image"></b-img>
+                <b-img class="mb-3 postImg" v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')" alt="Image"></b-img>
+                <v-btn class="btn btn-secondary"
+                  @click.native="selectFile"
+                  v-if="!uploadEnd && !uploading">
+                    Upload image
                 </v-btn>
-              </div>
-            </b-col>
-          </b-row>
-          <input type="submit" class="btn btn-primary" value="Add Post">
-        </form>
+                <form ref="form">
+                  <input
+                  id="files"
+                  type="file"
+                  name="file"
+                  ref="uploadInput"
+                  accept="image/*"
+                  :multiple="false"
+                  @change="detectFiles($event)" />
+                </form>
+                <div v-if="uploadEnd">
+                  <v-btn
+                      class="ma-0 btn btn-danger"
+                      dark
+                      small
+                      color="error"
+                      @click="deleteImage()"
+                      >
+                      Cancel
+                  </v-btn>
+                </div>
+              </b-col>
+            </b-row>
+            <input type="submit" class="btn btn-primary mt-3" value="Add Post">
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -122,7 +127,8 @@ export default {
         { text: 'condominium', value: 'condominium' },
         { text: 'apartment', value: 'apartment' },
         { text: 'other', value: 'other' }
-      ]
+      ],
+      show: false
     }
   },
   methods: {
@@ -153,6 +159,7 @@ export default {
       this.newPost.imageTime = ''
       this.newPost.image = false
       this.newPost.detail = ''
+      this.show = false
     },
     selectFile () {
       this.$refs.uploadInput.click()
@@ -212,18 +219,6 @@ export default {
       this.users = snapshot.val()
     })
   },
-  computed: {
-    resultQuery() {
-      if(this.search){
-        return Object.values(this.posts).filter(post => {
-          return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase())
-      })
-      }
-      else {
-        return this.posts
-      }
-    }
-  }
 }
 </script>
 
@@ -234,5 +229,10 @@ export default {
 input[type="file"] {
   position: absolute;
   clip: rect(0,0,0,0);
+}
+.postImg {
+  width: 350px;
+  height:350px;
+  object-fit: cover;
 }
 </style>

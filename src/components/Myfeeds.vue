@@ -16,9 +16,9 @@
                 <div>{{post.time}}</div>
                 <div><input type="text" v-model="updatePost.detail" placeholder="type"></div>
                 <div>
-                    <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 300px;"></b-img>
-                    <b-img v-else-if="post.image" thumbnail fluid rounded :src=getUrl(post) alt="Image" style="width: 300px;"></b-img>
-                    <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" style="width: 300px;"></b-img>
+                    <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" class="postImg"></b-img>
+                    <b-img v-else-if="post.image" thumbnail fluid rounded :src=getUrl(post) alt="Image" class="postImg"></b-img>
+                    <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" class="postImg"></b-img>
                 </div>
                 <div>post by : {{getUserName(post.uid)}}</div>
                 <div>tel : {{getUserTel(post.uid)}}</div>
@@ -43,8 +43,8 @@
                 <td>{{post.time}}</td>
                 <td>{{post.detail}}</td>
                 <td >
-                  <b-img v-if="post.image" thumbnail fluid rounded :src="getUrl(post)"  alt="Image" style="width: 300px;"></b-img>
-                  <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" style="width: 300px;"></b-img>
+                  <b-img v-if="post.image" thumbnail fluid rounded :src="getUrl(post)"  alt="Image" class="postImg"></b-img>
+                  <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" class="postImg"></b-img>
                 </td>
                 <td><b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img></td>
                 <td>post by : {{getUserName(post.uid)}}</td>
@@ -219,5 +219,10 @@ export default {
 <style scoped>
 .progress-bar {
   margin: 10px 0;
+}
+.postImg {
+  width: 350px;
+  height:350px;
+  object-fit: cover;
 }
 </style>

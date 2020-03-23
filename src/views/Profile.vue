@@ -39,10 +39,10 @@
                 </div>
             </div>
         </div>
+        <button class="btn btn-danger" @click="logout">logout</button>
         <Myfeeds></Myfeeds>
       </b-col>
-      <b-col class="p-3">
-        <button class="btn btn-danger" @click="logout">logout</button>
+      <b-col>
       </b-col>
   </b-row>
 

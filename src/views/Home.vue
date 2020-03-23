@@ -2,14 +2,14 @@
   <div class="home" style="overflow:hidden;">
     <Navbar></Navbar>
     <b-row>
-      <b-col><br>
+      <b-col class="selectBarDiv"><br>
         <div align="left" class="fixed p-4 seletbar">
           <div class="mb-3 select" style="width': '30px';cursor: pointer;" @click="sendSelectType ('')"> all</div>
           <img class="mb-3 select" :style="[selectType=='camera' ? { 'margin-left': '15px' } : { 'margin-left': '0px' }]" @click="sendSelectType ('camera')" src="../assets/icons/camera.png" alt=""><br>
           <img class="mb-3 select" :style="[selectType=='watch' ? { 'margin-left': '15px' } : { 'margin-left': '0px' }]" @click="sendSelectType ('watch')" src="../assets/icons/watch.png" alt=""><br>
           <img class="mb-3 select" :style="[selectType=='bag' ? { 'margin-left': '15px' } : { 'margin-left': '0px' }]" @click="sendSelectType ('bag')" src="../assets/icons/bag.png" alt=""><br>
           <img class="mb-2 select" :style="[selectType=='book' ? { 'margin-left': '15px' } : { 'margin-left': '0px' }]" @click="sendSelectType ('book')" src="../assets/icons/book.png" alt=""><br>
-          <img class="mb-2 select" :style="[selectType=='bike' ? { 'margin-left': '15px' } : { 'margin-left': '0px' }]" @click="sendSelectType ('bike')" src="../assets/icons/bike.png" alt=""><br>
+          <img class="mb-2 select" :style="[selectType=='bicycle' ? { 'margin-left': '15px' } : { 'margin-left': '0px' }]" @click="sendSelectType ('bicycle')" src="../assets/icons/bike.png" alt=""><br>
           <img class="mb-3 select" :style="[selectType=='motorcycle' ? { 'margin-left': '15px' } : { 'margin-left': '0px' }]" @click="sendSelectType ('motorcycle')" src="../assets/icons/motorcycle.png" alt=""><br>
           <img class="mb-3 select" :style="[selectType=='car' ? { 'margin-left': '15px' } : { 'margin-left': '0px' }]" @click="sendSelectType ('car')" src="../assets/icons/car.png" alt=""><br>
           <img class="mb-3 select" :style="[selectType=='land' ? { 'margin-left': '15px' } : { 'margin-left': '0px' }]" @click="sendSelectType ('land')" src="../assets/icons/land.png" alt=""><br>
@@ -19,11 +19,11 @@
           <div class="mb-3 select"  style="width: 30px;cursor: pointer;" @click="sendSelectType ('other')">others</div>
         </div>
       </b-col>
-      <b-col class="p-0 mt-3" cols="8">
+      <b-col class="p-0 mt-3 m-4" sm="4">
         <CreatePost></CreatePost>
         <Newfeeds v-bind:searchType="selectType"></Newfeeds>
       </b-col>
-      <b-col class="p-3">
+      <b-col class="p-3 profileDiv">
         <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 100px;"></b-img>
         <div :key="key" v-for="(user, key) in users">
             <p class="m-2" v-if="user.uid === userid"><b>welcome</b> <br>{{user.name}}</p>
@@ -80,6 +80,9 @@ export default {
 </script>
 
 <style scoped>
+.home{
+  background-color: #f0f2f5;
+}
 .fixed {
   position:fixed;
   top:150px;
@@ -130,6 +133,12 @@ export default {
   .select {
     width: 20px;
     font-size: 12px;
+  }
+  .selectBarDiv{
+    display: none;
+  }
+  .profileDiv{
+    display: none;
   }
 }
 </style>

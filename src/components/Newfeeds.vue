@@ -2,7 +2,7 @@
   <div class="body">
     <div class="panel panel-default">
       <div class="panel-heading mb-2">
-        <h3 class="panel-title mt-5 mb-5">RENT ANYTHING. <br>FROM ANYONE.</h3>
+        <h3 class="panel-title mt-5 mb-5">{{ searchType }}</h3>
         <input style="display:none;" class="form-control" type="text" v-model="searchType" placeholder="Search" />
         <input class="form-control" type="text" v-model="search" placeholder="Search" />
       </div>
@@ -28,7 +28,12 @@
                   <div align="left" class="mt-1">
                     <b><input type="text" v-model="updatePost.title" placeholder="title"></b><br>
                     tel : {{getUserTel(post.uid)}} <br>
-                    type : <input type="text" v-model="updatePost.type" placeholder="type"> <br>
+                    type :
+                    <select v-model="updatePost.type" class="form-control mt-2">
+                      <option v-for="option in options" v-bind:value="option.value" :disabled="option.disabled" :key="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select><br>
                     status : <input type="text" v-model="updatePost.status" placeholder="status"> <br><hr>
                     <input type="text" v-model="updatePost.detail" placeholder="detail">
                   </div>
@@ -57,13 +62,13 @@
                       <b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img>
                     </b-col>
                     <b-col cols="8" align="left">
-                      <p>
+                      <p class="ml-3">
                         <b>{{getUserName(post.uid)}}</b><br>
                         <b style="font-weight: lighter;">{{post.time}}</b>
                       </p>
                     </b-col>
                     <b-col cols="2">
-                      <b-dropdown v-if="post.uid==uid" class="mt-2">
+                      <b-dropdown v-if="post.uid==uid" class="mt-1">
                         <b-dropdown-item @click="setUpdatePost(key, post)">edit</b-dropdown-item>
                         <b-dropdown-item @click="removePost(post, key)">delete</b-dropdown-item>
                       </b-dropdown>
@@ -120,7 +125,23 @@ export default {
       loading: false,
       color: 'black',
       size: '20px',
-      mainProps: { width: 50, height: 50, class: 'm1' }
+      mainProps: { width: 50, height: 50, class: 'm1' },
+      selected: '',
+      options: [
+        { text: 'Please select one', value: '', "disabled": true,},
+        { text: 'camara', value: 'camara' },
+        { text: 'watch', value: 'watch' },
+        { text: 'bag', value: 'bag' },
+        { text: 'book', value: 'book' },
+        { text: 'bicycle', value: 'bicycle' },
+        { text: 'motorcycle', value: 'motorcycle' },
+        { text: 'car', value: 'car' },
+        { text: 'land', value: 'land' },
+        { text: 'house', value: 'house' },
+        { text: 'condominium', value: 'condominium' },
+        { text: 'apartment', value: 'apartment' },
+        { text: 'other', value: 'other' }
+      ],
     }
   },
   props: ['searchType'],

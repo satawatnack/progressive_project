@@ -1,8 +1,8 @@
 <template>
   <div class="body">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title mt-5 mb-4">Feed</h3>
+      <div class="panel-heading mb-2">
+        <h3 class="panel-title mt-5 mb-5">RENT ANYTHING. <br>FROM ANYONE.</h3>
         <input style="display:none;" class="form-control" type="text" v-model="searchType" placeholder="Search" />
         <input class="form-control" type="text" v-model="search" placeholder="Search" />
       </div>
@@ -10,32 +10,45 @@
         <table class="table table-striped">
           <tbody>
             <div :key="key" v-for="(post, key) in dict_reverse(resultSearch)">
-              <div v-if="updateKey === key">
-                <div><input type="text" v-model="updatePost.title" placeholder="title"></div>
-                <div><input type="text" v-model="updatePost.type" placeholder="type"></div>
-                <div><input type="text" v-model="updatePost.status" placeholder="status"></div>
-                <div>{{post.time}}</div>
-                <div><input type="text" v-model="updatePost.detail" placeholder="type"></div>
-                <div>
-                    <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" class="postImg"></b-img>
-                    <b-img v-else-if="post.image" thumbnail fluid rounded :src=getUrl(post) alt="Image" class="postImg"></b-img>
-                    <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" class="postImg"></b-img>
+              <div v-if="updateKey === key" class="postDiv">
+                <div class="postDetail">
+                  <b-row>
+                    <b-col cols="2">
+                      <b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img>
+                    </b-col>
+                    <b-col cols="8" align="left">
+                      <p>
+                        <b>{{getUserName(post.uid)}}</b><br>
+                        <b style="font-weight: lighter;">{{post.time}}</b>
+                      </p>
+                    </b-col>
+                    <b-col cols="2">
+                    </b-col>
+                  </b-row>
+                  <div align="left" class="mt-1">
+                    <b><input type="text" v-model="updatePost.title" placeholder="title"></b><br>
+                    tel : {{getUserTel(post.uid)}} <br>
+                    type : <input type="text" v-model="updatePost.type" placeholder="type"> <br>
+                    status : <input type="text" v-model="updatePost.status" placeholder="status"> <br><hr>
+                    <input type="text" v-model="updatePost.detail" placeholder="detail">
+                  </div>
                 </div>
-                <div>post by : {{getUserName(post.uid)}}</div>
-                <div>tel : {{getUserTel(post.uid)}}</div>
-                <div>
-                    <label>
-                        <div class="btn btn-secondary">
-                            change picture
-                        </div>
-                        <input
-                        type="file"
-                        style="display:none"
-                        accept="image/*"
-                        @change="detectFiles($event, post.imageTime, post.uid)" />
-                    </label>
+                <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" class="postImg"></b-img>
+                <b-img v-else-if="post.image" thumbnail fluid rounded :src=getUrl(post) alt="Image" class="postImg"></b-img>
+                <b-img v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')"  alt="Image" class="postImg"></b-img>
+                <div><br>
+                  <label>
+                    <div class="btn btn-secondary">
+                     change picture
+                    </div>
+                    <input
+                      type="file"
+                      style="display:none"
+                      accept="image/*"
+                      @change="detectFiles($event, post.imageTime, post.uid)" />
+                  </label>
                 </div>
-                <div><button @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.detail)">Save</button></div>
+                <button class="btn btn-primary mt-3" @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.detail)">Save</button>
               </div>
               <div v-else class="postDiv">
                 <div class="postDetail">
@@ -113,12 +126,15 @@ export default {
   props: ['searchType'],
   methods: {
     dict_reverse(obj) {
-      var new_obj= {}
-      var rev_obj = Object.keys(obj).reverse();
-      rev_obj.forEach(function(i) { 
-        new_obj[i] = obj[i];
-      })
-      return new_obj;
+      if(obj){
+        var new_obj= {}
+        var rev_obj = Object.keys(obj).reverse();
+        rev_obj.forEach(function(i) { 
+          new_obj[i] = obj[i];
+        })
+        return new_obj;
+      }
+      else return obj
     },
     detectFiles (e, imgTime, uid) {
       let fileList = e.target.files || e.dataTransfer.files

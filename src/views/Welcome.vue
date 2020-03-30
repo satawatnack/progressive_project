@@ -20,7 +20,7 @@
         </div>
       </b-col>
       <b-col class="p-0 mt-3 m-4" sm="3">
-        <b-button @click="login" variant="light">Create Post</b-button>
+        <b-button @click="login" variant="light">Login</b-button>
         <h3 class="panel-title mt-5 mb-5">RENT ANYTHING. <br>FROM ANYONE.</h3><hr>
         <div class="selectBarDivPhone mb-4" align="center"><br>
             <div class="selectPhone" style="width': '30px';cursor: pointer;" @click="sendSelectType ('')"> all</div>

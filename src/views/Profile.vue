@@ -1,13 +1,13 @@
 <template>
-  <div class="home" style="overflow:hidden;">
+  <div class="profile" style="overflow:hidden;">
     <Navbar></Navbar>
     <b-row class="text-center">
       <b-col></b-col>
-      <b-col class="p-0 mt-3" cols="8">
+      <b-col class="p-0 mt-3 m-4" sm="3">
         <div>
           <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;"></b-img>
           <b-img v-else thumbnail fluid rounded :src=getUrl(userid) alt="Image" style="width: 300px;"></b-img>
-        </div>
+        </div><br>
         <div>
             <v-btn class="btn btn-secondary"
             @click.native="selectFile">
@@ -24,22 +24,31 @@
             :multiple="false"
             @change="detectFiles($event)" />
             </form>
-        </div>
+        </div><br>
         <div :key="key" v-for="(user, key) in users">
             <div v-if="updateKey === key">
-                <div><input type="text" v-model="updateUser.name" placeholder="name"></div>
-                <div><input type="text" v-model="updateUser.tel" placeholder="tel"></div>
-                <div><button @click="updateThisUser(updateUser.name, updateUser.tel)">Save</button></div>
+              <div class="form-group row mt-4">
+                <label for="name" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="name" v-model="updateUser.name" placeholder="name">
+                </div>
+              </div>
+              <div class="form-group row mt-4">
+                <label for="tel" class="col-sm-2 col-form-label">Tel</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="tel" v-model="updateUser.tel" placeholder="tel">
+                </div>
+              </div>
+              <div><b-button @click="updateThisUser(updateUser.name, updateUser.tel)" variant="primary">Save</b-button></div>
             </div>
             <div v-else-if="user.uid === userid">
-                <div>{{user.name}}</div>
-                <div>{{user.tel}}</div>
+                <div>Hi , {{user.name}}</div>
+                <div>{{user.tel}}</div><br>
                 <div>
-                    <button @click="setUpdateUser(key, user)">Update Profile</button><br>
+                    <b-button @click="setUpdateUser(key, user)" variant="light">Update Profile</b-button><button class="btn btn-danger ml-2" @click="logout">logout</button>
                 </div>
             </div>
         </div>
-        <button class="btn btn-danger" @click="logout">logout</button>
         <Myfeeds></Myfeeds>
       </b-col>
       <b-col>
@@ -142,3 +151,8 @@ export default {
 }
 </script>
 
+<style scoped>
+.profile{
+  background-color: #f0f2f5;
+}
+</style>

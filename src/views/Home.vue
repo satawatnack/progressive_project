@@ -19,9 +19,9 @@
           <div class="mb-3 select"  style="width: 30px;cursor: pointer;" @click="sendSelectType ('other')">others</div>
         </div>
       </b-col>
-      <b-col class="p-0 mt-3 m-4" sm="4">
+      <b-col class="p-0 mt-3 m-4" sm="3">
         <CreatePost></CreatePost>
-        <h3 class="panel-title mt-5 mb-5">RENT ANYTHING. <br>FROM ANYONE.</h3>
+        <h3 class="panel-title mt-5 mb-5">RENT ANYTHING. <br>FROM ANYONE.</h3><hr>
         <div class="selectBarDivPhone mb-4" align="center"><br>
             <div class="selectPhone" style="width': '30px';cursor: pointer;" @click="sendSelectType ('')"> all</div>
             <img class="selectPhone" :style="[selectType=='camera' ? { 'margin-bottom': '15px' } : { 'margin-bottom': '0px' }]" @click="sendSelectType ('camera')" src="../assets/icons/camera.png" alt="">
@@ -39,7 +39,7 @@
         </div>
         <Newfeeds v-bind:searchType="selectType"></Newfeeds>
       </b-col>
-      <b-col class="p-3 profileDiv">
+      <b-col class="p-3 mt-3 profileDiv">
         <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 100px;"></b-img>
         <div :key="key" v-for="(user, key) in users">
             <p class="m-2" v-if="user.uid === userid"><b>welcome</b> <br>{{user.name}}</p>

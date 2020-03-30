@@ -35,6 +35,12 @@
                   </div>
                 </div>
                 <div class="form-group row">
+                  <label for="postPrice" class="col-sm-2 col-form-label">Price</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="postPrice" v-model="newPost.price" placeholder="price">
+                  </div>
+                </div>
+                <div class="form-group row">
                   <label for="postDetail" class="col-sm-2 col-form-label">Detail</label>
                   <div class="col-sm-10">
                     <textarea class="form-control" rows="5" id="postDetail" v-model="newPost.detail" placeholder="detail"></textarea>
@@ -103,6 +109,7 @@ export default {
           time: '',
           imageTime: '',
           image: false,
+          price: '',
           detail: '',
           uid: fb.auth.currentUser.uid
       },
@@ -159,6 +166,7 @@ export default {
       this.newPost.imageTime = ''
       this.newPost.image = false
       this.newPost.detail = ''
+      this.newPost.price = ''
       this.show = false
     },
     selectFile () {

@@ -25,8 +25,8 @@
                     <b-col cols="2">
                     </b-col>
                   </b-row>
-                  <div align="left" class="mt-1">
-                    <b><input type="text" v-model="updatePost.title" placeholder="title"></b><br>
+                  <div align="left" class="mt-2">
+                    <b><input class="form-control" type="text" v-model="updatePost.title" placeholder="title"></b><br>
                     tel : {{getUserTel(post.uid)}} <br>
                     type :
                     <select v-model="updatePost.type" class="form-control mt-2">
@@ -34,8 +34,9 @@
                         {{ option.text }}
                       </option>
                     </select><br>
-                    status : <input type="text" v-model="updatePost.status" placeholder="status"> <br><hr>
-                    <input type="text" v-model="updatePost.detail" placeholder="detail">
+                    status : <input type="text" class="form-control" v-model="updatePost.status" placeholder="status"> <br>
+                    price : <input type="text" class="form-control" v-model="updatePost.price" placeholder="price"> <br><hr>
+                    <textarea type="text" class="form-control" rows="3" v-model="updatePost.detail" placeholder="detail"></textarea>
                   </div>
                 </div>
                 <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" class="postImg"></b-img>
@@ -53,7 +54,7 @@
                       @change="detectFiles($event, post.imageTime, post.uid)" />
                   </label>
                 </div>
-                <button class="btn btn-primary mt-3" @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.detail)">Save</button>
+                <button class="btn btn-primary mt-3" @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.price, updatePost.detail)">Save</button>
               </div>
               <div v-else class="postDiv">
                 <div class="postDetail">
@@ -78,7 +79,8 @@
                     <b>{{post.title}}</b><br>
                     tel : {{getUserTel(post.uid)}} <br>
                     type : {{post.type}} <br>
-                    status : {{post.status}} <br><hr>
+                    status : {{post.status}} <br>
+                    price : {{post.price}} <br><hr>
                     {{post.detail}}
                   </div>
                 </div>
@@ -118,6 +120,7 @@ export default {
           title: '',
           type: '',
           status: '',
+          price: '',
           detail: '',
       },
       profileImgs: {},
@@ -202,19 +205,22 @@ export default {
         this.updatePost.title = post.title
         this.updatePost.type = post.type
         this.updatePost.status = post.status
+        this.updatePost.price = post.price
         this.updatePost.detail = post.detail
     },
-    updateThisPost (title, type, status, detail) {
+    updateThisPost (title, type, status, price, detail) {
         postsRef.child(this.updateKey).update({
             title: title,
             type: type,
             status: status,
+            price: price,
             detail: detail
         })
         this.updateKey = ''
         this.updatePost.title = ''
         this.updatePost.type = ''
         this.updatePost.status = ''
+        this.updatePost.price = ''
         this.updatePost.detail = ''
         this.uploadEnd = false
     },

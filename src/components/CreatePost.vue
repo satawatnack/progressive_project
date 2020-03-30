@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="panel panel-default">
-      <div v-if="!show" v-on:click="show = true" class="mt-3">
-        <b-button variant="light">Create Post</b-button>
+      <div v-if="!show" class="mt-3">
+        <b-button v-on:click="show = true" variant="light">Create Post</b-button>
       </div>
       <div v-else>
         <div class="panel-heading">

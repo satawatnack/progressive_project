@@ -1,4 +1,7 @@
-# progressive_proj
+# JUST_RENT (progressive_proj)
+concept : RENT ANYTHING. FROM ANYONE.
+
+create with vue and firebase (in progress)
 
 ## Project setup
 ```

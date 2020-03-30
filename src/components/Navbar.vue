@@ -9,7 +9,7 @@
         <b-navbar-nav class="navlink">
           <b-nav-item><router-link to="home">home</router-link></b-nav-item>
         </b-navbar-nav>
-        <b-navbar-nav class="navlink">
+        <b-navbar-nav v-if="userid" class="navlink">
           <b-nav-item><router-link to="profile">profile</router-link></b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -18,8 +18,14 @@
 </template>
 
 <script>
+const fb = require('../firebaseConfig.js')
 export default {
-    name: 'navbar'
+    name: 'navbar',
+    data () {
+      return {
+        userid: (fb.auth.currentUser) ? fb.auth.currentUser.uid : ''
+      }
+    }
 }
 </script>
 

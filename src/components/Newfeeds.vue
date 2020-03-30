@@ -111,7 +111,7 @@ export default {
       uploading: false,
       uploadEnd: false,
       downloadURL: '',
-      uid: fb.auth.currentUser.uid,
+      uid: (fb.auth.currentUser) ? fb.auth.currentUser.uid : '',
       posts: {},
       imgUrls: {},
       users: {},

@@ -4,7 +4,9 @@
                 <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <b-row>
-                        <b-col sm="6"><div style="height: 40%"></div><h3 style="color: #474747">JUSTRENT</h3><br><br></b-col>
+                        <b-col sm="6">
+                          <div class="m-5"><h3 style="color: #474747">JUSTRENT</h3><hr></div>
+                        </b-col>
                         <b-col sm="4">
                             <h4 style="color: #474745">Upload your profile image !</h4><br>
                             <div>

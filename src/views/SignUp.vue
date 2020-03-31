@@ -4,7 +4,9 @@
                 <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <b-row>
-                        <b-col class="col-6"><div style="height: 40%"></div><h3>JUSTRENT</h3></b-col>
+                        <b-col class="col-6">
+                            <div class="m-5"><h3 style="color: #474747">JUSTRENT</h3><hr></div>
+                        </b-col>
                         <b-col class="col-4">
                             <h4>Let's create a new account !</h4><br>
                             <input class="form-control" type="text" v-model="email" placeholder="Email">

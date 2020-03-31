@@ -24,31 +24,42 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login.vue')
+    component: () => import('../views/Login.vue'),
+    meta: {
+      title: 'Login'
+    }
   },
   {
     path: '/sign-up',
     name: 'SignUp',
-    component: () => import('../views/SignUp.vue')
+    component: () => import('../views/SignUp.vue'),
+    meta: {
+      title: 'Sign-up'
+    }
   },
   {
     path: '/profileImg',
     name: 'ProfileImg',
     component: () => import('../views/ProfileImg.vue'),
     meta: {
+      title: 'ProfileImg',
       requiresAuth: true
     }
   },
   {
     path: '/welcome',
     name: 'Welcome',
-    component: () => import('../views/Welcome.vue')
+    component: () => import('../views/Welcome.vue'),
+    meta: {
+      title: 'Welcome'
+    }
   },
   {
     path: '/home',
     name: 'Home',
     component: Home,
     meta: {
+      title: 'Home',
       requiresAuth: true
     }
   },
@@ -57,6 +68,7 @@ const routes = [
     name: 'Profile',
     component: () => import('../views/Profile.vue'),
     meta: {
+      title: 'Profile',
       requiresAuth: true
     }
   }

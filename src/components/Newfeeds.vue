@@ -17,7 +17,7 @@
                       <b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img>
                     </b-col>
                     <b-col cols="8" align="left">
-                      <p>
+                      <p class="ml-3 mt-2">
                         <b>{{getUserName(post.uid)}}</b><br>
                         <b style="font-weight: lighter;">{{post.time}}</b>
                       </p>
@@ -58,18 +58,18 @@
               </div>
               <div v-else class="postDiv">
                 <div class="postDetail">
-                  <b-row>
+                  <b-row class="mb-3">
                     <b-col cols="2">
                       <b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img>
                     </b-col>
                     <b-col cols="8" align="left">
-                      <p class="ml-3">
+                      <p class="ml-3 mt-2">
                         <b>{{getUserName(post.uid)}}</b><br>
                         <b style="font-weight: lighter;">{{post.time}}</b>
                       </p>
                     </b-col>
                     <b-col cols="2">
-                      <b-dropdown v-if="post.uid==uid" class="mt-1">
+                      <b-dropdown v-if="post.uid==uid" class="mt-2">
                         <b-dropdown-item @click="setUpdatePost(key, post)">edit</b-dropdown-item>
                         <b-dropdown-item @click="removePost(post, key)">delete</b-dropdown-item>
                       </b-dropdown>
@@ -128,7 +128,7 @@ export default {
       loading: false,
       color: 'black',
       size: '20px',
-      mainProps: { width: 50, height: 50, class: 'm1' },
+      mainProps: { width: 65, height: 65, class: 'm1' },
       selected: '',
       options: [
         { text: 'Please select one', value: '', "disabled": true,},

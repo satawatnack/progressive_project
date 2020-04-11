@@ -3,7 +3,7 @@
     <div class="panel panel-default">
       <div class="panel-heading mb-2">
         <h3 class="panel-title mt-5 mb-5">My feed</h3>
-        <input class="form-control" type="text" v-model="search" placeholder="Search"/>
+        <input class="form-control" type="text" v-model="search" placeholder="Search" />
       </div>
       <div class="panel-body"><br>
         <table class="table table-striped">
@@ -16,7 +16,7 @@
                       <b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img>
                     </b-col>
                     <b-col cols="8" align="left">
-                      <p>
+                      <p class="ml-3 mt-2">
                         <b>{{getUserName(post.uid)}}</b><br>
                         <b style="font-weight: lighter;">{{post.time}}</b>
                       </p>
@@ -57,18 +57,18 @@
               </div>
               <div v-else-if="post.uid==uid" class="postDiv">
                 <div class="postDetail">
-                  <b-row>
+                  <b-row class="mb-3">
                     <b-col cols="2">
                       <b-img v-bind="mainProps" rounded="circle" :src="getUserProfile(post.uid)" alt="Circle image"></b-img>
                     </b-col>
                     <b-col cols="8" align="left">
-                      <p class="ml-3">
+                      <p class="ml-3 mt-2">
                         <b>{{getUserName(post.uid)}}</b><br>
                         <b style="font-weight: lighter;">{{post.time}}</b>
                       </p>
                     </b-col>
                     <b-col cols="2">
-                      <b-dropdown v-if="post.uid==uid" class="mt-1">
+                      <b-dropdown v-if="post.uid==uid" class="mt-2">
                         <b-dropdown-item @click="setUpdatePost(key, post)">edit</b-dropdown-item>
                         <b-dropdown-item @click="removePost(post, key)">delete</b-dropdown-item>
                       </b-dropdown>
@@ -101,7 +101,7 @@ let postsRef = fb.db.ref('/posts')
 let usersRef = fb.db.ref('/users')
 
 export default {
-  name: 'Myfeeds',
+  name: 'homefeeds',
   data () {
     return {
       progressUpload: 0,
@@ -110,7 +110,7 @@ export default {
       uploading: false,
       uploadEnd: false,
       downloadURL: '',
-      uid: fb.auth.currentUser.uid,
+      uid: (fb.auth.currentUser) ? fb.auth.currentUser.uid : '',
       posts: {},
       imgUrls: {},
       users: {},
@@ -127,7 +127,7 @@ export default {
       loading: false,
       color: 'black',
       size: '20px',
-      mainProps: { width: 50, height: 50, class: 'm1' },
+      mainProps: { width: 65, height: 65, class: 'm1' },
       selected: '',
       options: [
         { text: 'Please select one', value: '', "disabled": true,},
@@ -146,6 +146,7 @@ export default {
       ],
     }
   },
+  props: ['searchType'],
   methods: {
     dict_reverse(obj) {
       if(obj){
@@ -263,14 +264,24 @@ export default {
     })
   },
   computed: {
-    resultSearch() {
-      if(this.search) {
+    resultQuery() {
+      if(this.searchType) {
         return Object.values(this.posts).filter(post => {
-          return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase()) 
+          return post.title.toLowerCase().includes(this.searchType.toLowerCase()) || post.type.toLowerCase().includes(this.searchType.toLowerCase()) 
         })
       }
       else {
         return this.posts
+      }
+    },
+    resultSearch() {
+      if(this.search) {
+        return Object.values(this.resultQuery).filter(post => {
+          return post.title.toLowerCase().includes(this.search.toLowerCase()) || post.type.toLowerCase().includes(this.search.toLowerCase()) 
+        })
+      }
+      else {
+        return this.resultQuery
       }
     }
   }

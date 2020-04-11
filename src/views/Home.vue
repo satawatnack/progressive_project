@@ -19,7 +19,7 @@
           <div class="mb-3 select"  style="width: 30px;cursor: pointer;" @click="sendSelectType ('other')">others</div>
         </div>
       </b-col>
-      <b-col class="p-0 mt-3 m-4" sm="3">
+      <b-col class="p-0 mt-3 m-4" sm="6">
         <CreatePost></CreatePost>
         <h3 class="panel-title mt-5 mb-5">RENT ANYTHING. <br>FROM ANYONE.</h3><hr>
         <div class="selectBarDivPhone mb-4" align="center"><br>
@@ -37,7 +37,11 @@
             <img class="selectPhone" :style="[selectType=='apartment' ? { 'margin-bottom': '15px' } : { 'margin-bottom': '0px' }]" @click="sendSelectType ('apartment')" src="../assets/icons/apartment.png" alt="">
             <div class="selectPhone m-3"  style="width: 30px;cursor: pointer;" @click="sendSelectType ('other')">others</div>
         </div>
-        <Newfeeds v-bind:searchType="selectType"></Newfeeds>
+        <b-row class="justify-content-md-center">
+          <b-col sm="7">
+            <Newfeeds v-bind:searchType="selectType"></Newfeeds>
+          </b-col>
+        </b-row>
       </b-col>
       <b-col class="p-3 mt-3 profileDiv">
         <b-img thumbnail fluid rounded :src=getUrl(userid) alt="Image 1" style="width: 100px;"></b-img>

@@ -3,7 +3,7 @@
     <Navbar></Navbar>
     <b-row class="text-center">
       <b-col></b-col>
-      <b-col class="p-0 mt-3 m-4" sm="3">
+      <b-col class="p-0 mt-3 m-4" sm="6">
         <div>
           <b-img v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;"></b-img>
           <b-img v-else thumbnail fluid rounded :src=getUrl(userid) alt="Image" style="width: 300px;"></b-img>
@@ -49,7 +49,11 @@
                 </div>
             </div>
         </div>
-        <Myfeeds></Myfeeds>
+        <b-row class="justify-content-md-center">
+          <b-col sm="7">
+            <Myfeeds></Myfeeds>
+          </b-col>
+        </b-row>
       </b-col>
       <b-col>
       </b-col>

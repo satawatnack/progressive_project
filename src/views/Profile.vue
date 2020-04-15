@@ -9,11 +9,11 @@
           <b-img v-else thumbnail fluid rounded :src=getUrl(userid) alt="Image" style="width: 300px;"></b-img>
         </div><br>
         <div>
-            <v-btn class="btn btn-secondary"
-            @click.native="selectFile">
-                change a profile picture
-            </v-btn>
-            <form ref="form">
+          <v-btn class="btn btn-secondary"
+          @click.native="selectFile">
+              change a profile picture
+          </v-btn>
+          <form ref="form">
             <input
             id="files"
             style="display: none"
@@ -23,31 +23,31 @@
             accept="image/*"
             :multiple="false"
             @change="detectFiles($event)" />
-            </form>
+          </form>
         </div><br>
         <div :key="key" v-for="(user, key) in users">
-            <div v-if="updateKey === key">
-              <div class="form-group row mt-4">
-                <label for="name" class="col-sm-2 col-form-label">Name</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="name" v-model="updateUser.name" placeholder="name">
-                </div>
+          <div v-if="updateKey === key">
+            <div class="form-group row mt-4">
+              <label for="name" class="col-sm-2 col-form-label">Name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="name" v-model="updateUser.name" placeholder="name">
               </div>
-              <div class="form-group row mt-4">
-                <label for="tel" class="col-sm-2 col-form-label">Tel</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="tel" v-model="updateUser.tel" placeholder="tel">
-                </div>
+            </div>
+            <div class="form-group row mt-4">
+              <label for="tel" class="col-sm-2 col-form-label">Tel</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="tel" v-model="updateUser.tel" placeholder="tel">
               </div>
-              <div><b-button @click="updateThisUser(updateUser.name, updateUser.tel)" variant="primary">Save</b-button></div>
             </div>
-            <div v-else-if="user.uid === userid">
-                <div>Hi , {{user.name}}</div>
-                <div>{{user.tel}}</div><br>
-                <div>
-                    <b-button @click="setUpdateUser(key, user)" variant="light">Update Profile</b-button><button class="btn btn-danger ml-2" @click="logout">logout</button>
-                </div>
+             <div><b-button @click="updateThisUser(updateUser.name, updateUser.tel)" variant="primary">Save</b-button></div>
+          </div>
+          <div v-else-if="user.uid === userid">
+            <div>Hi , {{user.name}}</div>
+            <div>{{user.tel}}</div><br>
+            <div>
+              <b-button @click="setUpdateUser(key, user)" variant="light">Update Profile</b-button><button class="btn btn-danger ml-2" @click="logout">logout</button>
             </div>
+          </div>
         </div>
         <b-row class="justify-content-md-center">
           <b-col sm="7">
@@ -55,10 +55,8 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col>
-      </b-col>
-  </b-row>
-
+      <b-col></b-col>
+    </b-row>
   </div>
 </template>
 

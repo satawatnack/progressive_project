@@ -1,54 +1,54 @@
 <template>
-    <header class="masthead">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                <div class="col-12">
-                    <b-row>
-                        <b-col sm="6">
-                          <div class="m-5"><h3 style="color: #474747">JUSTRENT</h3><hr></div>
-                        </b-col>
-                        <b-col sm="4">
-                            <h4 style="color: #474745">Upload your profile image !</h4><br>
-                            <div>
-                                <form ref="form">
-                                <input
-                                id="files"
-                                type="file"
-                                name="file"
-                                ref="uploadInput"
-                                accept="image/*"
-                                :multiple="false"
-                                @change="detectFiles($event)" />
-                                </form>
-                                <b-img class="mb-3" v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;height:350px; object-fit: cover;"></b-img>
-                                <b-img class="mb-3" v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')" alt="Image" style="width: 350px;height:350px; object-fit: cover;"></b-img>
-                                <br>
-                                <v-btn class="btn btn-secondary"
-                                @click.native="selectFile"
-                                v-if="!uploadEnd && !uploading">
-                                    Upload your profile image
-                                </v-btn>
-                                <div v-if="uploadEnd">
-                                    <v-btn
-                                    class="ma-0 btn btn-danger"
-                                    dark
-                                    small
-                                    color="error"
-                                    @click="deleteImage()"
-                                    >
-                                    Cancel
-                                    </v-btn>
-                                </div>
-                            </div><br>
-                            <p v-if="!uploadEnd">please upload your profile !</p>
-                            <button  v-if="uploadEnd" type="button" class="btn btn-light" @click="signUp">Sign up</button>
-                            <button  v-else type="button" class="btn btn-secondary" style="cursor: none;" disabled>Sign up</button>
-                        </b-col>
-                    </b-row>
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12">
+          <b-row>
+            <b-col sm="6">
+              <div class="m-5"><h3 style="color: #474747">JUSTRENT</h3><hr></div>
+            </b-col>
+            <b-col sm="4">
+              <h4 style="color: #474745">Upload your profile image !</h4><br>
+              <div>
+                <form ref="form">
+                <input
+                id="files"
+                type="file"
+                name="file"
+                ref="uploadInput"
+                accept="image/*"
+                :multiple="false"
+                @change="detectFiles($event)" />
+                </form>
+                <b-img class="mb-3" v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image" style="width: 350px;height:350px; object-fit: cover;"></b-img>
+                <b-img class="mb-3" v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')" alt="Image" style="width: 350px;height:350px; object-fit: cover;"></b-img>
+                <br>
+                <v-btn class="btn btn-secondary"
+                @click.native="selectFile"
+                v-if="!uploadEnd && !uploading">
+                    Upload your profile image
+                </v-btn>
+                <div v-if="uploadEnd">
+                    <v-btn
+                    class="ma-0 btn btn-danger"
+                    dark
+                    small
+                    color="error"
+                    @click="deleteImage()"
+                    >
+                    Cancel
+                  </v-btn>
                 </div>
-                </div>
-            </div>
-    </header>
+              </div><br>
+              <p v-if="!uploadEnd">please upload your profile !</p>
+              <button  v-if="uploadEnd" type="button" class="btn btn-light" @click="signUp">Sign up</button>
+              <button  v-else type="button" class="btn btn-secondary" style="cursor: none;" disabled>Sign up</button>
+            </b-col>
+          </b-row>
+        </div>
+      </div>
+    </div>
+  </header>
 </template>
 
 <script>

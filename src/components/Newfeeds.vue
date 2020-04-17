@@ -35,7 +35,8 @@
                       </option>
                     </select><br>
                     status : <input type="text" class="form-control" v-model="updatePost.status" placeholder="status"> <br>
-                    price : <input type="text" class="form-control" v-model="updatePost.price" placeholder="price"> <br><hr>
+                    price : <input type="text" class="form-control" v-model="updatePost.price" placeholder="price"> <br>
+                    location : <input type="text" class="form-control" v-model="updatePost.location" placeholder="location"> <br><hr>
                     <textarea type="text" class="form-control" rows="3" v-model="updatePost.detail" placeholder="detail"></textarea>
                   </div>
                 </div>
@@ -54,7 +55,7 @@
                       @change="detectFiles($event, post.imageTime, post.uid)" />
                   </label>
                 </div>
-                <button class="btn btn-primary mt-3" @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.price, updatePost.detail)">Save</button>
+                <button class="btn btn-primary mt-3" @click="updateThisPost(updatePost.title, updatePost.type, updatePost.status, updatePost.price, updatePost.location, updatePost.detail)">Save</button>
               </div>
               <div v-else class="postDiv">
                 <div class="postDetail">
@@ -80,7 +81,8 @@
                     tel : {{getUserTel(post.uid)}} <br>
                     type : {{post.type}} <br>
                     status : {{post.status}} <br>
-                    price : {{post.price}} <br><hr>
+                    price : {{post.price}} <br>
+                    location : {{post.location}} <br><hr>
                     {{post.detail}}
                   </div>
                 </div>
@@ -121,6 +123,7 @@ export default {
           type: '',
           status: '',
           price: '',
+          location: '',
           detail: '',
       },
       profileImgs: {},
@@ -206,14 +209,16 @@ export default {
         this.updatePost.type = post.type
         this.updatePost.status = post.status
         this.updatePost.price = post.price
+        this.updatePost.location = post.location
         this.updatePost.detail = post.detail
     },
-    updateThisPost (title, type, status, price, detail) {
+    updateThisPost (title, type, status, price, location, detail) {
         postsRef.child(this.updateKey).update({
             title: title,
             type: type,
             status: status,
             price: price,
+            location: location,
             detail: detail
         })
         this.updateKey = ''
@@ -221,6 +226,7 @@ export default {
         this.updatePost.type = ''
         this.updatePost.status = ''
         this.updatePost.price = ''
+        this.updatePost.location = ''
         this.updatePost.detail = ''
         this.uploadEnd = false
     },

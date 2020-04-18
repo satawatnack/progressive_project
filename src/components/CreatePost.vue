@@ -55,7 +55,7 @@
               </b-col>
               <b-col sm="6">
                 <b-img class="mb-3 postImg" v-if="uploadEnd" thumbnail fluid rounded :src="downloadURL" alt="Image"></b-img>
-                <b-img class="mb-3 postImg" v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')" alt="Image"></b-img>
+                <b-img class="mb-3 postImg" v-else thumbnail fluid rounded :src="require('../assets/defult.jpg')" alt="Image"></b-img><br>
                 <v-btn class="btn btn-secondary"
                   @click.native="selectFile"
                   v-if="!uploadEnd && !uploading">
@@ -84,7 +84,10 @@
                 </div>
               </b-col>
             </b-row>
-            <input type="submit" class="btn btn-primary mt-3" value="Add Post">
+            <span v-if="errMsg">*{{ errMsg }}</span><br>
+            <input v-if="errMsg" type="submit" disabled class="btn btn-primary mt-3" value="Add Post">
+            <input v-else type="submit" class="btn btn-primary mt-3 mr2" value="Add Post">
+            <button type="button" @click="cancelPost" class="btn btn-outline-danger mt-3 ml-2">Cancel Post</button>
           </form>
         </div>
       </div>
@@ -118,6 +121,7 @@ export default {
           location: '',
           price: '',
           detail: '',
+          msg: '',
           uid: fb.auth.currentUser.uid
       },
       posts: {},
@@ -143,6 +147,18 @@ export default {
         { text: 'other', value: 'other' }
       ],
       show: false
+    }
+  },
+  computed: {
+    errMsg () {
+      if (this.newPost.title && this.selected && this.newPost.status && 
+      this.newPost.detail && this.newPost.location && this.newPost.price) {
+        return ''
+      }
+      else if (!this.selected) return 'please select type'
+      else {
+        return 'please fill the blanks'
+      }
     }
   },
   methods: {
@@ -175,6 +191,24 @@ export default {
       this.newPost.detail = ''
       this.newPost.location = ''
       this.newPost.price = ''
+      this.selected = ''
+      this.show = false
+    },
+    cancelPost () {
+      this.uploading = false
+      this.uploadEnd = false
+      this.downloadURL = ''
+      this.$refs.form.reset()
+      this.newPost.title = ''
+      this.newPost.type = ''
+      this.newPost.status = ''
+      this.newPost.time = ''
+      this.newPost.imageTime = ''
+      this.newPost.image = false
+      this.newPost.detail = ''
+      this.newPost.location = ''
+      this.newPost.price = ''
+      this.selected = ''
       this.show = false
     },
     selectFile () {

@@ -13,7 +13,9 @@
               <input class="form-control" type="password" v-model="password" placeholder="Password">
               <input class="form-control" type="text" v-model="name" placeholder="Firstname Lastname">
               <input class="form-control" type="text" v-model="tel" placeholder="Phone Number">
-              <button class="btn btn-light" @click="next">next</button><br>
+              <span v-if="msg">*{{msg}}</span><br>
+              <button v-if="msg" class="btn btn-light" disabled @click="next">next</button>
+              <button v-else class="btn btn-light" @click="next">next</button><br>
               <p>or go back to <router-link to="login">login.</router-link></p>
             </b-col>
             <b-col class="col-2"></b-col>
@@ -37,6 +39,17 @@ export default {
       password: '',
       name: '',
       tel: ''
+    }
+  },
+  computed: {
+    msg () {
+      if(!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) return 'Invalid Email Address'
+      else if (this.password.length < 8 || !this.password) return 'your password must more than 7'
+      else if (!this.name) return 'you must have name'
+      else if (!this.password) return 'you must have phone number'
+      else if (this.tel.length < 10 || !this.tel) return 'your phone number must be 10 numbers'
+      else if (isNaN(this.tel)) return 'your phone number must be numeric'
+      else return ''
     }
   },
   methods: {

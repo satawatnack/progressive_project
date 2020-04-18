@@ -11,10 +11,8 @@
               <b-col sm="4">
                 <h3 style="color: 474745">Sign In</h3><br>
                 <input class="form-control" type="text" v-model="email" placeholder="Email">
-                <input class="form-control" type="password" v-model="password" placeholder="Password" v-on:keyup.enter="login"><br>
-                <button class="btn btn-dark" @click="login">Sign In</button> <p>or</p>
-                <button class="btn btn-primary" @click="socialFacecbookLogin">Facebook</button>
-                <button class="btn btn-danger" @click="socialGoogleLogin">Google</button>
+                <input class="form-control" type="password" v-model="password" placeholder="Password" v-on:keyup.enter="login">
+                <button class="mt-3 btn btn-dark" @click="login">Sign In</button>
                 <p>You don't have an account ? you can <router-link to="sign-up">create one</router-link></p>
               </b-col>
           </b-row>
@@ -48,32 +46,6 @@ export default {
           alert('Oops ' + err.mesage)
         }
       )
-    },
-    socialFacecbookLogin: function() {
-      const provide = new firebase.auth.FacebookAuthProvider()
-      firebase
-        .auth()
-        .signInWithPopup(provide)
-        .then(result => {
-          this.$router.replace('home')
-            console.log(result.additionalUserInfo.profile.id)
-          })
-          .catch(err => {
-            alert("Oops. " + err.message)
-          })
-    },
-    socialGoogleLogin: function() {
-      const provide = new firebase.auth.GoogleAuthProvider().addScope("email");
-      firebase
-        .auth()
-        .signInWithPopup(provide)
-        .then(result => {
-          this.$router.replace('home')
-          console.log(result.additionalUserInfo.profile.name)
-        })
-        .catch(err => {
-          alert("Oops. " + err.message)
-        })
     }
   }
 }

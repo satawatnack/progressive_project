@@ -4,10 +4,10 @@
       <div class="row h-100 align-items-center">
         <div class="col-12">
           <b-row>
-            <b-col class="col-6">
+            <b-col sm="6">
               <div class="m-5"><h3 style="color: #474747">JUSTRENT</h3><hr></div>
             </b-col>
-            <b-col class="col-4">
+            <b-col sm="4">
               <h4>Let's create a new account !</h4><br>
               <input class="form-control" type="text" v-model="email" placeholder="Email">
               <input class="form-control" type="password" v-model="password" placeholder="Password">
@@ -18,7 +18,6 @@
               <button v-else class="btn btn-light" @click="next">next</button><br>
               <p>or go back to <router-link to="login">login.</router-link></p>
             </b-col>
-            <b-col class="col-2"></b-col>
           </b-row>
         </div>
       </div>
